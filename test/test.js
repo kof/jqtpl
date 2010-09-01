@@ -1,5 +1,5 @@
 var a = require( "assert" ),
-    jte = require( "./../lib/jte" );
+    jte = require( "./../lib/jqtpl" );
 
 var tpl1 = "<div>${a}</div>",
     tpl2 = "<div>${$i}</div>",
