@@ -8,9 +8,9 @@ http://docs.djangoproject.com/en/dev/topics/templates/
 
  * no program logic in templates
  * no embeded script language like in ejs
-  1. this is evil because it enables program logic in templates
-  1. bad usability
-  1. because of the "var" problem in javascript - very very evil
+   1. this is evil because it enables program logic in templates
+   1. bad usability
+   1. because of the "var" problem in javascript - very very evil
  * extendable - you can implement new statements
   
 ## Features
