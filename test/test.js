@@ -26,3 +26,5 @@ a.equal( jte.render(tpl5,{a:2}), "<div>2</div>" );
 
 // output html without escaping
 a.equal( jte.render(tpl6,{a:'<div id="123">2</div>'}), '<div id="123">2</div>');
+
+console.log("Tests passed successfull");

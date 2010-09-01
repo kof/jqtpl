@@ -94,4 +94,7 @@ http://docs.djangoproject.com/en/dev/topics/templates/
     jqtpl.render( tpl, {a:'<div id="123">2</div>'});
 ##### Output
     <div id="123">2</div>    
-    
+
+## Run tests
+    node test/test.js
+     
