@@ -26,6 +26,11 @@ http://docs.djangoproject.com/en/dev/topics/templates/
 ### require the module
     var jqtpl = require( "jqtpl" );
 
+Want to use it with Express?
+    app.set( "view engine", "html" );
+    app.register( ".html", require( "jqtpl" ) );
+    
+
 ### Simple output (escaped per default)
 
 ##### Template
