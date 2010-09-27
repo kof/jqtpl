@@ -1,12 +1,23 @@
 {
-  "name": "jqtpl",
-  "description": "Port of jQuery's template engine",
-  "version": "0.0.1",
-  "author": "Oleg Slobodskoi <oleg008@gmail.com>",
-  "contributors": [
-    { "name": "John Resig", "email": "jeresig@gmail.com" },
-  ],
-  "keywords": ["template", "template engine", "jquery", "django"],
-  "directories": { "lib": "./lib" },
-  "engines": { "node": ">= 0.1.101" }
+    "name": "jqtpl",
+    "description": "A port of jQuery's template engine",
+    "version": "0.0.1",
+    "author": "Oleg Slobodskoi <oleg008@gmail.com>",
+    "contributors": [
+        { "name": "John Resig", "email": "jeresig@gmail.com" },
+    ],    
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:kof/node-argsparser.git"
+    },
+    "keywords": ["template", "template engine", "jquery", "django"],
+    "directories": { "lib": "./lib" },
+    "engines": { "node": ">= 0.2.0" },
+    "scripts": { "install": "node test/test.js"  },
+    "licenses": [
+        { 
+            "type": "MIT",
+            "url" : "http://www.opensource.org/licenses/mit-license.php"
+        }
+    ]
 }

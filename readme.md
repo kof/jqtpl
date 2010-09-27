@@ -101,5 +101,8 @@ Want to use it with Express?
     <div id="123">2</div>    
 
 ## Run tests
-    node test/test.js
+    $ node test/test.js
+    
+## Installation
+    npm install jqtpl  
      
