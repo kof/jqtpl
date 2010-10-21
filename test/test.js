@@ -1,12 +1,16 @@
 var a = require( "assert" ),
-    jte = require( "./../lib/jqtpl" );
+    jte = require( "./../lib/jqtpl" ),
+	fs = require( "fs" ),
+	s = require( "sys" );
 
 var tpl1 = "<div>${a}</div>",
     tpl2 = "<div>${$i}</div>",
     tpl3 = "{{each(i, name) names}}<div>${i}.${name}</div>{{/each}}",
     tpl4 = "{{if a == 1}}<div>${a}</div>{{/if}}",
     tpl5 = "{{if a == 1}} 1 {{else}}<div>${a}</div>{{/if}}",
-    tpl6 = "{{html a}}";
+    tpl6 = "{{html a}}",
+	tpl7 = "{{tmpl($data) tpl1}}",
+	tpl8 = "{{tmpl($data) extTpl}}";
 
 // simple output 
 a.equal( jte.render(tpl1, {a:1}), "<div>1</div>" );
@@ -27,4 +31,14 @@ a.equal( jte.render(tpl5,{a:2}), "<div>2</div>" );
 // output html without escaping
 a.equal( jte.render(tpl6,{a:'<div id="123">2</div>'}), '<div id="123">2</div>');
 
-require( "sys" ).print("\nTests passed successfull\n");
+// nested templates
+global.tpl1 = tpl1;
+a.equal( jte.render(tpl7, {a:1}), "<div>1</div>" );
+fs.readFile('external-tmpl.js','utf8',function (err,text) {
+  	if (err) throw err;
+  	global.extTpl = text;
+	a.equal( jte.render(tpl8, [{a:1},{a:2}]), "<div>1</div><div>2</div>" );
+	s.print("\nExternal template tests passed successfull\n");
+});
+
+s.print("\nTests passed successfull\n");
