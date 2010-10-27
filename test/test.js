@@ -1,6 +1,5 @@
 var a = require( "assert" ),
     jte = require( "./../lib/jqtpl" ),
-	fs = require( "fs" ),
 	s = require( "sys" );
 
 var tpl1 = "<div>${a}</div>",
@@ -32,13 +31,8 @@ a.equal( jte.render(tpl5,{a:2}), "<div>2</div>" );
 a.equal( jte.render(tpl6,{a:'<div id="123">2</div>'}), '<div id="123">2</div>');
 
 // nested templates
-global.tpl1 = tpl1;
+global.tpl1 =  global.extTpl = tpl1;
 a.equal( jte.render(tpl7, {a:1}), "<div>1</div>" );
-fs.readFile('external-tmpl.js','utf8',function (err,text) {
-  	if (err) throw err;
-  	global.extTpl = text;
-	a.equal( jte.render(tpl8, [{a:1},{a:2}]), "<div>1</div><div>2</div>" );
-	s.print("\nExternal template tests passed successfull\n");
-});
+a.equal( jte.render(tpl8, [{a:1},{a:2}]), "<div>1</div><div>2</div>" );
 
 s.print("\nTests passed successfull\n");
