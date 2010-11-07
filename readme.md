@@ -36,8 +36,9 @@ http://docs.djangoproject.com/en/dev/topics/templates/
 
 ### require the module
     var jqtpl = require( "jqtpl" );
+    
 
-### Want to use it with Express?
+#### Want to use it with Express?
     app.set( "view engine", "html" );
     app.register( ".html", require( "jqtpl" ) );
 
@@ -49,9 +50,10 @@ Following options are supported by render method
  - `scope` Function execution context
  - `debug` Output generated function body    
  
-
+##### Code example 
+	
 	jqtpl.render('your template', {
-	    locals: {
+		locals: {
 			// your data here
 		},
 		cache: true, // default
