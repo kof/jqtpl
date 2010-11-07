@@ -51,7 +51,7 @@ Following options are supported by render method
  
 
 	jqtpl.render('your template', {
-		locals: {
+	    locals: {
 			// your data here
 		},
 		cache: true, // default
