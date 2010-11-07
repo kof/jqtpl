@@ -37,17 +37,34 @@ http://docs.djangoproject.com/en/dev/topics/templates/
 ### require the module
     var jqtpl = require( "jqtpl" );
 
-Want to use it with Express?
+### Want to use it with Express?
     app.set( "view engine", "html" );
     app.register( ".html", require( "jqtpl" ) );
-    
+
+Following options are supported by render method
+
+ - `locals` Local variables object
+ - `cache` Compiled functions are cached, requires `filename`
+ - `filename` Used by `cache` to key caches
+ - `scope` Function execution context
+ - `debug` Output generated function body    
+
+	jqtpl.render('your template', {
+		locals: {
+			// your data here
+		},
+		cache: true, // default
+		filename: 'file-name',
+		scope: {} // default to {}
+		debug: false // will output generated function to the console, false is default
+	});
 
 ### Simple output (escaped per default)
 
 ##### Template
     <div>${a}</div>
 ##### Code
-    jqtpl.render( tpl, {a:123});
+    jqtpl.tmpl( tpl, {a:123});
 ##### Output
     <div>123</div>
 
@@ -56,7 +73,7 @@ Want to use it with Express?
 ##### Template   
     <div>${a}</div>
 ##### Code
-    jqtpl.render( tpl, [{a:1},{a:2},{a:3}]);
+    jqtpl.tmpl( tpl, [{a:1},{a:2},{a:3}]);
 ##### Output
     <div>1</div><div>2</div><div>3</div>
          
@@ -65,7 +82,7 @@ Want to use it with Express?
 ##### Template
     <div>${a}</div>
 ##### Code
-    jqtpl.render( tpl, {
+    jqtpl.tmpl( tpl, {
         a:function() {
             return 1 + 5;
         }
@@ -84,12 +101,12 @@ Want to use it with Express?
         <div>a is not 6 and not 5</div>    
     {{/if}}
 ##### Code
-    jqtpl.render( tpl, {a:6});
+    jqtpl.tmpl( tpl, {a:6});
 ##### Output
     <div>6</div>
 
 ##### Code
-    jqtpl.render( tpl, {a:5});
+    jqtpl.tmpl( tpl, {a:5});
 ###### Output
     <div>a is not 6</div>
     
@@ -106,7 +123,7 @@ or
 	{{/each}}
     
 ##### Code
-    jqtpl.render( tpl, {names: ["A", "B"]});
+    jqtpl.tmpl( tpl, {names: ["A", "B"]});
 ##### Output
     <div>0.A</div><div>1.B</div>
     
@@ -115,7 +132,7 @@ or
 ##### Template
     <div>{{html a}}</div>
 ##### Code
-    jqtpl.render( tpl, {a:'<div id="123">2</div>'});
+    jqtpl.tmpl( tpl, {a:'<div id="123">2</div>'});
 ##### Output
     <div id="123">2</div>    
     
@@ -126,7 +143,7 @@ or
 ##### Code
 	// precompile an cache it
 	jte.template( "templateName", tpl );
-    jqtpl.render( "templateName", {a:1} );
+    jqtpl.tmpl( "templateName", {a:1} );
     
     // you can also delete the template from cache
     delete jte.template["templateName"];
@@ -142,7 +159,7 @@ or
 ##### Template
     <div>${ $item.someMethod() }</div>
 ##### Code
-	jqtpl.render( tpl, {a:1}, {
+	jqtpl.tmpl( tpl, {a:1}, {
 		someMethod: function(){ return 1; }
 	});
 ##### Output
@@ -154,7 +171,7 @@ or
 ##### Code
 	// precompile an cache it
 	jte.template( "templateName", tpl );
-    jqtpl.render( "templateName", {a:1} );
+    jqtpl.tmpl( "templateName", {a:1} );
     
     // you can also delete the template from cache
     delete jte.template["templateName"];
@@ -166,7 +183,7 @@ or
 ##### Template
     <div>{{! its a comment}}</div>
 ##### Code
-    jqtpl.render( tpl );
+    jqtpl.tmpl( tpl );
 ##### Output
     <div></div>  
      
