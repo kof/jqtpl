@@ -48,6 +48,7 @@ Following options are supported by render method
  - `filename` Used by `cache` to key caches
  - `scope` Function execution context
  - `debug` Output generated function body    
+ 
 
 	jqtpl.render('your template', {
 		locals: {
