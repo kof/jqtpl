@@ -2,6 +2,12 @@
 
 http://github.com/jquery/jquery-tmpl
 
+## Full API documentation of the original plugin
+
+http://api.jquery.com/category/plugins/templates/
+
+Note: currently not implemented: wrap tag and tmplItem method.
+
 ## Philosophy is similar to django
 
 http://docs.djangoproject.com/en/dev/topics/templates/
@@ -10,17 +16,22 @@ http://docs.djangoproject.com/en/dev/topics/templates/
  * no embeded script language like in ejs
    1. this is evil because it enables program logic in templates
    1. bad usability
-   1. because of the "var" problem in javascript - very very evil
- * extendable - you can implement new statements
+   1. because of the "var" problem in javascript - very evil
   
 ## Features
+
+ * jquery tmpl plugin conform
+ * extendable - you can implement new statements
  * html escaping per default
  * simple syntax
- * NO PROGRAM LOGIC :)
- * extendable :)
  * tiny and fast
- * jquery conform in the future
 
+## Installation via npm
+	npm install jqtpl
+
+## Run tests
+    $ node test/test.js
+    
 ## Usage
 
 ### require the module
@@ -67,8 +78,10 @@ Want to use it with Express?
 ##### Template
     {{if a == 6}}
         <div>${a}</div>
+    {{else a == 5}}
+    	<div>5</div>
     {{else}}
-        <div>a is not 6</div>    
+        <div>a is not 6 and not 5</div>    
     {{/if}}
 ##### Code
     jqtpl.render( tpl, {a:6});
@@ -86,6 +99,12 @@ Want to use it with Express?
     {{each(i, name) names}}
         <div>${i}.${name}</div>
     {{/each}}        
+    
+or
+	{{each names}}
+		<div>${$index}.${$value}</div>
+	{{/each}}
+    
 ##### Code
     jqtpl.render( tpl, {names: ["A", "B"]});
 ##### Output
@@ -99,10 +118,55 @@ Want to use it with Express?
     jqtpl.render( tpl, {a:'<div id="123">2</div>'});
 ##### Output
     <div id="123">2</div>    
-
-## Run tests
-    $ node test/test.js
     
-## Installation
-    npm install jqtpl  
+### Named templates - there is a way to precompile the template using a string, so you can render this template later using its name
+
+##### Template
+    <div>${a}</div>
+##### Code
+	// precompile an cache it
+	jte.template( "templateName", tpl );
+    jqtpl.render( "templateName", {a:1} );
+    
+    // you can also delete the template from cache
+    delete jte.template["templateName"];
+##### Output
+    <div>1</div>       
+
+### Local variables
+
+$data - data object passed to render method
+$item - contains $data via $item.data as well as user options - an optional map of user-defined key-value pairs.
+
+
+##### Template
+    <div>${ $item.someMethod() }</div>
+##### Code
+	jqtpl.render( tpl, {a:1}, {
+		someMethod: function(){ return 1; }
+	});
+##### Output
+    <div>1</div> 	
+
+
+##### Template
+    <div>${a}</div>
+##### Code
+	// precompile an cache it
+	jte.template( "templateName", tpl );
+    jqtpl.render( "templateName", {a:1} );
+    
+    // you can also delete the template from cache
+    delete jte.template["templateName"];
+##### Output
+    <div>1</div>    
+
+### Comments
+
+##### Template
+    <div>{{! its a comment}}</div>
+##### Code
+    jqtpl.render( tpl );
+##### Output
+    <div></div>  
      
