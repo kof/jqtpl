@@ -135,8 +135,8 @@ or
 
 ### Local variables
 
-$data - data object passed to render method
-$item - contains $data via $item.data as well as user options - an optional map of user-defined key-value pairs.
+* $data - data object passed to render method
+* $item - contains $data via $item.data as well as user options - an optional map of user-defined key-value pairs.
 
 
 ##### Template
