@@ -14,7 +14,12 @@ var tpl1 = "<div>${a}</div>",
     tpl9 = "{{if a == 1}}<div>${a}</div>{{/if}}",
     tpl11 = "{{if a == 1}}<div>${a}</div>{{else}}2{{/if}}",
     tpl12 = "{{if a == 1}}<div>${a}</div>{{else a==2 }}2{{else}}3{{/if}}",
-    tpl14 = "{{tmpl($data) extTpl}}";
+    tpl14 = "{{tmpl({a:1}) extTpl}}";
+
+// Display what is not equal
+function equals(left,right,message){
+  a.equal(left,right,[message, left, " != ", right].join(" "))
+}
 
 // "template" method
 a.equal( typeof jte.template("test", tpl1), "function", "precompile template and cache using template name" );
@@ -55,7 +60,9 @@ a.equal( jte.tmpl(tpl13, {names: ["A", "B"]}), "<div>0.A</div><div>1.B</div>", "
 a.equal( jte.tmpl(tpl7, null, {getData: function(){ return [1,2,3]}}), "<div>1</div><div>2</div><div>3</div>", "test 'each', using templates variables" );
 
 // {{tmpl}}
-a.equal( jte.tmpl(tpl4, {a:1, extTpl: tpl1}), "<div>1</div>", "include template" );
+// Does not like single ticks ' for string data 
+equals( jte.tmpl("{{tmpl({a:\"data\"}) templates.test}}", {templates :{ test: "<div>${a}</div>"}}), "<div>data</div>", "include template" );
+equals( jte.tmpl("{{tmpl({a:123}) test}}", {test: "<div class='test'>${a}</div>"}), "<div class='test'>123</div>", "include template" );
 
 /*
 // {{wrap}}
