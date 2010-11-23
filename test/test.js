@@ -64,6 +64,20 @@ a.equal( jte.tmpl(tpl7, null, {getData: function(){ return [1,2,3]}}), "<div>1</
 equals( jte.tmpl("{{tmpl({a:\"data\"}) templates.test}}", {templates :{ test: "<div>${a}</div>"}}), "<div>data</div>", "include template" );
 equals( jte.tmpl("{{tmpl({a:123}) test}}", {test: "<div class='test'>${a}</div>"}), "<div class='test'>123</div>", "include template" );
 
+// Acceptance test
+// Should be more robust, but it is a start
+equals((function(){
+   var data = {
+     a: "One",
+     array : [1,2,3],
+     templates: {
+       first: "Array: {{each(index,value) array}}${value}{{/each}} {{tmpl templates.last}}",
+       last: "last"
+     }
+   }
+
+   return jte.tmpl("${a} {{tmpl($item.data) templates.first}}", data);
+})(), "One Array: 123 last");
 /*
 // {{wrap}}
 
