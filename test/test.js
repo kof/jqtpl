@@ -60,14 +60,14 @@ a.equal( jte.tmpl(tpl13, {names: ["A", "B"]}), "<div>0.A</div><div>1.B</div>", "
 a.equal( jte.tmpl(tpl7, null, {getData: function(){ return [1,2,3]}}), "<div>1</div><div>2</div><div>3</div>", "test 'each', using templates variables" );
 
 // {{tmpl}}
-// Does not like single ticks ' for string data 
+// Does not like single ticks ' for string data
 equals( jte.tmpl("{{tmpl({a:\"data\"}) templates.test}}", {templates :{ test: "<div>${a}</div>"}}), "<div>data</div>", "include template" );
 equals( jte.tmpl("{{tmpl({a:123}) test}}", {test: "<div class='test'>${a}</div>"}), "<div class='test'>123</div>", "include template" );
 
 /*
 // {{wrap}}
 
-var tpl1 = 
+var tpl1 =
     '{{wrap "#tableWrapper"}}\
         <div>\
             First <b>content</b>\
@@ -77,7 +77,7 @@ var tpl1 =
         </div>\
     {{/wrap}}';
 
-var tpl2 = 
+var tpl2 =
     '<table><tbody>\
         <tr>\
             {{each $item.html("div")}}\
@@ -98,18 +98,18 @@ a.equal( jte.tmpl("<div>{{! its a comment}}</div>", {a:1}), "<div></div>", "comm
 
 // Express render method
 
-a.equal( 
+a.equal(
     jte.render( tpl1, { locals: {a:1}, cache: false, filename: "test" } ),
     "<div>1</div>",
-    "express locals test" 
+    "express locals test"
 );
 
 a.equal( jte.template["test"], undefined, "express cache and filename test" );
 
-a.equal( 
+a.equal(
     jte.render( "<div>${this.test}</div>", { locals: {a:1}, scope: {test: 123} } ),
     "<div>123</div>",
-    "express scope test" 
+    "express scope test"
 );
 
 
@@ -118,17 +118,17 @@ a.equal(
     var printed,
         util = require( "util" ),
         print = util.print;
-    
+
     // mock print method
     util.print = function( str ) {
         printed = true;
     };
-    
+
     jte.render( tpl1, { locals: {a:1}, debug: true} );
-    
+
     // restore orig. print function
     util.print = print;
-    
+
     a.ok( printed, "express debug test" );
 })()
 
