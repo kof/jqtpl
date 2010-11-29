@@ -10,8 +10,7 @@ var tpl1 = "<div>${a}</div>",
     tpl6 = "{{html a}}",
     tpl9 = "{{if a == 1}}<div>${a}</div>{{/if}}",
     tpl11 = "{{if a == 1}}<div>${a}</div>{{else}}2{{/if}}",
-    tpl12 = "{{if a == 1}}<div>${a}</div>{{else a==2 }}2{{else}}3{{/if}}",
-    tpl14 = "{{tmpl($data) extTpl}}";
+    tpl12 = "{{if a == 1}}<div>${a}</div>{{else a==2 }}2{{else}}3{{/if}}";
 
 // "template" method
 a.equal( typeof jte.template("test", tpl1), "function", "precompile template and cache using template name" );
@@ -87,8 +86,22 @@ a.equal(
 );
 
 
+
 // {{tmpl}}
-a.equal( jte.tmpl(tpl4, {a:1, extTpl: tpl1}), "<div>1</div>", "include template" );
+a.equal( 
+    jte.tmpl(
+        "{{tmpl(data) extTpl}}", 
+        {    
+            extTpl: "<div>${a}</div>",
+            data: {a:123456}
+        }
+    ), 
+    "<div>123456</div>", 
+    "include template {{tmpl}}" 
+);
+
+
+
 
 /*
 // {{wrap}}
