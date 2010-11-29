@@ -8,9 +8,6 @@ var tpl1 = "<div>${a}</div>",
     tpl4 = "<div>${$item.data.a}</div>",
     tpl5 = "<div>${$item.someFunction()}</div>",
     tpl6 = "{{html a}}",
-    tpl7 = "{{each $item.getData()}}<div>${$value}</div>{{/each}}",
-    tpl8 = "{{each(index, value) names}}<div>${index}.${value}</div>{{/each}}",
-    tpl13 = "{{each names}}<div>${$index}.${$value}</div>{{/each}}",
     tpl9 = "{{if a == 1}}<div>${a}</div>{{/if}}",
     tpl11 = "{{if a == 1}}<div>${a}</div>{{else}}2{{/if}}",
     tpl12 = "{{if a == 1}}<div>${a}</div>{{else a==2 }}2{{else}}3{{/if}}",
@@ -49,10 +46,46 @@ a.equal( jte.tmpl(tpl11,{a:2}), "2", "test else when false" );
 a.equal( jte.tmpl(tpl12,{a:2}), "2", "test else =2" );
 a.equal( jte.tmpl(tpl12,{a:3}), "3", "test else =3" );
 
+
+
 // {{each}}
-a.equal( jte.tmpl(tpl8, {names: ["A", "B"]}), "<div>0.A</div><div>1.B</div>", "test 'each', use index and value, explizitely mapping them " );
-a.equal( jte.tmpl(tpl13, {names: ["A", "B"]}), "<div>0.A</div><div>1.B</div>", "test 'each', use index and name with auto mapping" );
-a.equal( jte.tmpl(tpl7, null, {getData: function(){ return [1,2,3]}}), "<div>1</div><div>2</div><div>3</div>", "test 'each', using templates variables" );
+a.equal( 
+    jte.tmpl(
+        "{{each(index, value) names}}<div>${index}.${value}</div>{{/each}}", 
+        {names: ["A", "B"]}
+    ), 
+    "<div>0.A</div><div>1.B</div>", "test 'each', use index and value, explizitely mapping them " 
+);
+a.equal( 
+    jte.tmpl(
+        "{{each names}}<div>${$index}.${$value}</div>{{/each}}", 
+        {names: ["A", "B"]}
+    ), 
+    "<div>0.A</div><div>1.B</div>", "test 'each', use index and name with auto mapping" 
+);
+a.equal( 
+    jte.tmpl(
+        "{{each $item.getData()}}<div>${$value}</div>{{/each}}",
+        null, 
+        { 
+            getData: function(){ 
+                return [1,2,3];
+            }
+        }
+    ), 
+    "<div>1</div><div>2</div><div>3</div>", "test 'each', using templates variables" 
+);
+a.equal(
+    jte.tmpl(
+        "{{each data }}<div>${$value}</div>{{/each}}",
+        {
+            data: {1:1, 2:2, 3:3}
+        }
+    ),
+    "<div>1</div><div>2</div><div>3</div>",
+    "iterate over json in each loop"
+);
+
 
 // {{tmpl}}
 a.equal( jte.tmpl(tpl4, {a:1, extTpl: tpl1}), "<div>1</div>", "include template" );
