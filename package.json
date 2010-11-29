@@ -1,16 +1,17 @@
 {
     "name": "jqtpl",
     "description": "A port of jQuery's template engine",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "author": "Oleg Slobodskoi <oleg008@gmail.com>",
     "contributors": [
         { "name": "John Resig", "email": "jeresig@gmail.com" },
+        { "name": "Boris Moore", "email": "borismoore@gmail.com"}
     ],    
     "repository": {
         "type": "git",
         "url": "http://github.com/kof/node-jqtpl.git"
     },
-    "keywords": ["template", "template engine", "jquery", "django"],
+    "keywords": ["template", "template engine", "jquery", "django", "logicless"],
     "directories": { "lib": "./lib" },
     "engines": { "node": ">= 0.2.4" },
     "scripts": { "install": "node test/test.js"  },
