@@ -1,7 +1,7 @@
 {
     "name": "jqtpl",
     "description": "A port of jQuery's template engine",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "author": "Oleg Slobodskoi <oleg008@gmail.com>",
     "contributors": [
         { "name": "John Resig", "email": "jeresig@gmail.com" },
@@ -13,6 +13,7 @@
     },
     "keywords": ["template", "template engine", "jquery", "django", "logicless"],
     "directories": { "lib": "./lib" },
+    "main": "./lib/jqtpl.js",
     "engines": { "node": ">= 0.2.4" },
     "scripts": { "install": "node test/test.js"  },
     "licenses": [
