@@ -100,6 +100,25 @@ a.equal(
     "include template {{tmpl}}" 
 );
 
+a.equal( 
+    jte.tmpl(
+        '{{tmpl(data) "partial"}}', 
+        {    
+            data: {a:123456}
+        },
+        {
+            scope: {
+                res: {
+                    render: function(tmpl, options, cb) {
+                        cb(null, "<div>${a}</div>");
+                    }    
+                }
+            }
+        }
+    ), 
+    "<div>123456</div>", 
+    "include template {{tmpl}}" 
+);
 
 
 
