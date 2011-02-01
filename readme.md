@@ -189,4 +189,24 @@ or
     jqtpl.tmpl( tpl );
 ##### Output
     <div></div>  
+    
+### Partials
+
+There are 2 ways supported. 
+
+##### Template
+	// The first way is jquery-tmpl compatible and preferred:
+    <div>{{tmpl({name: "Test"}) "mypartial"}}</div>
+
+	// The second way is provided by express and is not jquery-tmpl compatible:
+    <div>${partial("mypartial", {name: "Test"})}</div>
+    
+#### Partial template "mypartial"
+	${name}
+	
+##### Code
+    jqtpl.tmpl( tpl );
+##### Output
+    <div>Test</div> 
+    
      
