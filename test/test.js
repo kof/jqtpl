@@ -18,8 +18,9 @@ a.equal( jte.tmpl("test", {a:1}), "<div>1</div>", "render using template name" )
 a.ok( delete jte.template["test"], "remove cache item" );
 
 // escaping
-a.equal(jte.tmpl("<div class='test'>test</div>"), "<div class=\\'test\\'>test</div>", 'single quotes');
+a.equal(jte.tmpl("<div class='test'>test</div>"), "<div class='test'>test</div>", 'single quotes');
 a.equal(jte.tmpl('<div class="test">test</div>'), '<div class="test">test</div>', 'double quotes');
+a.equal(jte.tmpl("<script>var something = '${myvar}';</script>", {myvar: 'whatever'}), "<script>var something = 'whatever';</script>");
 
 // ${}
 a.equal( jte.tmpl(tpl1, {a:1}), "<div>1</div>", "use simple data object" );
