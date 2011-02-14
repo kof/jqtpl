@@ -1,5 +1,5 @@
 test:
-	node test/test.js
+	qunit -c lib/jqtpl.js -t test/main.js test/express.js
 lint:
 	linter -f lib/jqtpl.js
 	
