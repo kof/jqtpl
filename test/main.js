@@ -1,3 +1,5 @@
+QUnit.module('main');
+
 var tpl1 = "<div>${a}</div>",
     tpl2 = "<div>{{= a}}</div>",
     tpl3 = "<div>${$data.a}</div>",
