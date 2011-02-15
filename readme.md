@@ -193,14 +193,16 @@ or
 ### Partials
 
 There are 2 ways supported. 
+Note: passing json object with 2 curly brackets without any separation will break the 
+template engine: {{tmpl({a: {b: 1}}) "mypartial"}}
 
 ##### Template
 	// The first way is jquery-tmpl compatible and preferred:
     <div>{{tmpl({name: "Test"}) "mypartial"}}</div>
 
 	// The second way is provided by express and is not jquery-tmpl compatible:
-    <div>${partial("mypartial", {name: "Test"})}</div>
-    
+    <div>{{html ("mypartial", {name: "Test"})}}</div>
+
 #### Partial template "mypartial"
 	${name}
 	

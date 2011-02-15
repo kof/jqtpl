@@ -16,8 +16,7 @@ var o = {
         root: __dirname + '/fixtures',
         port: 8888    
     },
-    app,
-    data;
+    app;
 
 QUnit.module('express', {
     setup: function() {
@@ -26,7 +25,7 @@ QUnit.module('express', {
         app.set('views', o.root + '/views');
         app.register('.html', require('../lib/jqtpl'));
         app.get('/:view', function(req, res){
-            res.render(req.params.view, { layout: false, locals: data });
+            res.render(req.params.view, { layout: false, locals: {a:1} });
         });        
         app.listen(o.port);
     },
@@ -37,7 +36,6 @@ QUnit.module('express', {
 
 test("locals", 1, function() {
    stop(); 
-   data =  {a:1};
    request('/locals', function(data) {
        equal(data, '<div>1</div>', 'template rendered correctly');
        start();
@@ -70,8 +68,13 @@ test("debug option", function() {
 
 test("partials", 1, function() {
     stop();
+
     request('/partialtest', function(data) {
         equal(data, '<div class="partial">1</div>', 'partial view rendered');
+    });
+
+    request('/partialexpress1', function(data) {
+        equal(data, '<div class="partial">1</div>', 'partial view using express method');
         start();
     });
 });
