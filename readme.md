@@ -201,7 +201,7 @@ template engine: {{tmpl({a: {b: 1}}) "mypartial"}}
     <div>{{tmpl({name: "Test"}) "mypartial"}}</div>
 
 	// The second way is provided by express and is not jquery-tmpl compatible:
-    <div>{{html ("mypartial", {name: "Test"})}}</div>
+    <div>{{html partial("mypartial", {name: "Test"})}}</div>
 
 #### Partial template "mypartial"
 	${name}

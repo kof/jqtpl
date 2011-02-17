@@ -107,8 +107,20 @@ test('{{tmpl}}', function() {
             }
         ), 
         "<div>123456</div>", 
-        "include template {{tmpl}}" 
-    );    
+        "include template {{tmpl}} and pass data object" 
+    );
+
+    equal( 
+        tmpl(
+            "{{tmpl(data) extTpl}}", 
+            {    
+                extTpl: "<div>${a}</div>",
+                data: [{a:1}, {a:2}]
+            }
+        ), 
+        "<div>1</div><div>2</div>", 
+        "include template {{tmpl}} and pass data array" 
+    ); 
 });
 
 test('{{!}}', function() {

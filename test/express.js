@@ -66,16 +66,39 @@ test("debug option", function() {
 });
 
 
-test("partials", 1, function() {
+test("partials tmpl", 1, function() {
     stop();
 
     request('/partialtest', function(data) {
-        equal(data, '<div class="partial">1</div>', 'partial view rendered');
-    });
-
-    request('/partialexpress1', function(data) {
-        equal(data, '<div class="partial">1</div>', 'partial view using express method');
+        equal(data, '<div class="partial">1</div>', 'partial using tmpl');
         start();
     });
 });
+
+test("partials express", 1, function() {
+    stop();
+
+    request('/partialexpress', function(data) {
+        equal(data, '<div class="partial">1</div>', 'partial view using express method');
+        start();
+    });
+});   
+
+test("partials array", 1, function() {
+    stop();
+
+    request('/partialarray', function(data) {
+        equal(data, '<div class="partial">1</div><div class="partial">2</div><div class="partial">3</div>', 'partial view using tmpl and passing an array');
+        start();
+    });
+}); 
+
+test("wrong partial path", 1, function() {
+    stop();
+
+    request('/wrongpartialpath', function(data) {
+        equal(data, 'idontexist', 'wrong path is rendered as view text');
+        start();
+    });
+}); 
 
