@@ -11,7 +11,7 @@
         "type": "git",
         "url": "http://github.com/kof/node-jqtpl.git"
     },
-    "keywords": ["template", "template engine", "jquery", "django", "logicless"],
+    "keywords": ["template", "engine", "jquery", "jquery-tmpl", "django", "logicless"],
     "directories": { "lib": "./lib" },
     "main": "./lib/jqtpl.js",
     "engines": { "node": ">= 0.3.7" },
