@@ -16,7 +16,7 @@
     "main": "./lib/jqtpl.js",
     "engines": { "node": ">= 0.3.7" },
     "dependencies": {
-        "express": ">= 1.0.7"
+        "express": ">=1.0.7 <2.0"
     },
     "devDependencies": {
         "qunit": ">= 0.1.3"
