@@ -1,7 +1,7 @@
 {
     "name": "jqtpl",
     "description": "A port of jQuery's template engine",
-    "version": "0.0.100",
+    "version": "0.1.0",
     "author": "Oleg Slobodskoi <oleg008@gmail.com>",
     "contributors": [
         { "name": "John Resig", "email": "jeresig@gmail.com" },
@@ -16,7 +16,7 @@
     "main": "./lib/jqtpl.js",
     "engines": { "node": ">= 0.3.7" },
     "dependencies": {
-        "express": ">=1.0.7 || ~2.0"
+        "express": ">=1.0.7"
     },
     "devDependencies": {
         "qunit": ">= 0.1.3"
