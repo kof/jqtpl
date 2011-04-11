@@ -215,13 +215,17 @@ Note: passing json object with 2 curly brackets without any separation will brea
 Read express documentation here http://expressjs.com/guide.html#res.partial()
 	
 	// tpl
-    <div>{{partial({name: "Test"}) "mypartial"}}</div>
+	
+	// myaction.html
+    <div>{{partial({test) "mypartial"}}</div>
 	
 	// mypartial.html
 	${name}
 	
 	// code
-    jqtpl.tmpl( tpl );
+	app.get('/myaction', function(req, res) {
+		res.render('myaction', {test: {name: 'Test'}});
+	})
 	
 	// output
     <div>Test</div> 
@@ -229,18 +233,28 @@ Read express documentation here http://expressjs.com/guide.html#res.partial()
 Using array of data:
 
 	// tpl
+	
+	// myaction.html
     <div id="main">
-    	{{partial([{name: "Test1"}, {name: "Test2"}]) "mypartial"}}
+    	{{partial(test) "mypartial"}}
 	</div>
 	
 	// mypartial.html
 	<div class="partial">
-		${mypartial.name}
+		${name}
 	</div>
 	
 	// code
-    jqtpl.tmpl( tpl );
-	
+	app.get('/myaction', function(req, res) {
+		res.render('myaction', {
+			as: global,
+			test: [
+				{name: "Test1"}, 
+				{name: "Test2"}
+			]			
+		});
+	})
+		
 	// output
 	<div id="main">
 		<div class="partial">Test1</div>
