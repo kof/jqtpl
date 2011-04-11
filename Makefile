@@ -1,6 +1,12 @@
-test:
-	qunit -c lib/jqtpl.js -t test/main.js test/express.js
-lint:
-	linter -f lib/jqtpl.js
+test: jqtpl express
+
+jqtpl:
+	qunit -c ./lib/jqtpl.js -t ./test/jqtpl.js
+
+express:
+	qunit -c ./lib/jqtpl.express.js -t ./test/express.js --cov false
 	
-.PHONY: test lint	
+lint:
+	linter -f ./lib/jqtpl.js
+	
+.PHONY: test jqtpl express lint	

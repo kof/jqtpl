@@ -1,4 +1,4 @@
-QUnit.module('main');
+QUnit.module('jqtpl');
 
 var tpl1 = "<div>${a}</div>",
     tpl2 = "<div>{{= a}}</div>",

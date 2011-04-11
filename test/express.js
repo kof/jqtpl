@@ -1,50 +1,57 @@
-var express = require('express'),
-    http = require('http');
-
-
-function request(path, callback) {
-    var client = http.createClient(o.port);
-    var request = client.request('GET', path, {'host': 'http://localhost'});
-    request.on('response', function (response) {
-        response.setEncoding('utf8');
-	    response.on('data', callback);
-    });    
-    request.end();
-}
-
 var o = {
         root: __dirname + '/fixtures',
         port: 8888    
-    },
-    app;
+    };
+    
+function request(path, callback) {
+    var http = require('http');
+    var client = http.createClient(o.port);
+    var request = client.request('GET', path, {'host': 'http://localhost'});
+    
+    request.on('response', function (response) {
+        response.setEncoding('utf8');
+	    response.on('data', callback);
+    });
+        
+    request.end();
+}
+
+var locals;
 
 QUnit.module('express', {
     setup: function() {
-        app = express.createServer();
+        var express = require('express');
+        
+        var app = this.app = express.createServer();
+        
         app.set('view engine', 'html');
         app.set('views', o.root + '/views');
-        app.register('.html', require('../lib/jqtpl'));
+        app.set('view options', {layout: false});        
+        // qunit copies jqtpl.express exports to global
+        app.register('.html', global);
         app.get('/:view', function(req, res){
-            res.render(req.params.view, { layout: false, locals: {a:1} });
-        });        
+            res.render(req.params.view, locals);
+        });
         app.listen(o.port);
     },
     teardown: function() {
-         app.close();       
+        this.app.close();
+        locals = undefined;
     }
 });
 
 test("locals", 1, function() {
    stop(); 
-   request('/locals', function(data) {
+   locals = {a:1};
+   request('/view', function(data) {
        equal(data, '<div>1</div>', 'template rendered correctly');
        start();
    });
 });
 
 test("scope option", function() {
-    var res = render( "<div>${this.test}</div>", { locals: {a:1}, scope: {test: 123} } );
-    same(res, '<div>123</div>', "scope is correct");                
+    var fn = compile( "<div>${this.test}</div>", {scope: {test: 123}} );
+    same(fn({a:1}), '<div>123</div>', "scope is correct");                
 });
 
 test("debug option", function() {
@@ -57,7 +64,7 @@ test("debug option", function() {
         printed = true;
     };
     
-    render( '', {debug: true} );
+    compile( 'test', {debug: true} )();
     
     // restore orig. print function
     util.debug = debug;
@@ -65,40 +72,33 @@ test("debug option", function() {
     ok( printed, "debug option works" );
 });
 
-
-test("partials tmpl", 1, function() {
+test("partials using `partial`", 1, function() {
     stop();
-
+    locals = {
+        test: {
+            a: 1
+        }
+    };
     request('/partialtest', function(data) {
-        equal(data, '<div class="partial">1</div>', 'partial using tmpl');
+        equal(data, '<div>1</div>', 'data is an object');
         start();
     });
 });
 
-test("partials express", 1, function() {
+test("partials using `partial`", 1, function() {
     stop();
-
-    request('/partialexpress', function(data) {
-        equal(data, '<div class="partial">1</div>', 'partial view using express method');
+    locals = {
+        test: [
+            {a: 1},
+            {a: 2},
+            {a: 3}
+        ]    
+    };
+    request('/partialtest', function(data) {
+        equal(data, '<div>1</div><div>2</div><div>3</div>', 'data is an array');
         start();
     });
-});   
+});
 
-test("partials array", 1, function() {
-    stop();
 
-    request('/partialarray', function(data) {
-        equal(data, '<div class="partial">1</div><div class="partial">2</div><div class="partial">3</div>', 'partial view using tmpl and passing an array');
-        start();
-    });
-}); 
-
-test("wrong partial path", 1, function() {
-    stop();
-
-    request('/wrongpartialpath', function(data) {
-        equal(data, 'idontexist', 'wrong path is rendered as view text');
-        start();
-    });
-}); 
 

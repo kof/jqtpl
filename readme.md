@@ -16,7 +16,7 @@ http://docs.djangoproject.com/en/dev/topics/templates/
  * no embeded script language like in ejs
    1. this is evil because it enables program logic in templates
    1. bad usability
-   1. because of the "var" problem in javascript - very evil
+   1. because of the "var" problem in javascript
   
 ## Features
 
@@ -30,72 +30,116 @@ http://docs.djangoproject.com/en/dev/topics/templates/
 	npm install jqtpl
 
 ## Run tests
-    $ node test/test.js
+    $ make test
+
     
 ## Usage
 
 ### require the module
-    var jqtpl = require( "jqtpl" );
-    
+    var jqtpl = require("jqtpl");
 
-#### Want to use it with Express?
-    app.set( "view engine", "html" );
-    app.register( ".html", require( "jqtpl" ) );
+### jqtpl.tmpl(markup, data, options);
 
-Following options are supported by render method
+Compile and render a template.
 
- - `locals` Local variables object
- - `cache` Compiled functions are cached, requires `filename`
- - `filename` Used by `cache` to key caches
- - `scope` Function execution context
- - `debug` Output generated function body    
- 
-##### Code example 
-	
-	jqtpl.render('your template', {
-		locals: {
-			// your data here
-		},
-		cache: true, // default
-		filename: 'file-name',
-		scope: {} // default to {}
-		debug: false // will output generated function to the console, false is default
-	});
+- `markup` html code string
+- `data` object or array of data
+- `options` optional options object
 
-### Simple output (escaped per default)
+### jqtpl.template(name, tpl) 
 
-##### Template
+Named templates - there is a way to precompile the template using a string, so you can render this template later using its name.
+
+	// tpl
     <div>${a}</div>
-##### Code
+	
+	// code
+
+	// precompile an cache it
+	jte.template( "templateName", tpl );
+	// render
+    jqtpl.tmpl( "templateName", {a:1} );
+    // you can also delete the template from cache
+    delete jte.template["templateName"];
+
+	// output
+    <div>1</div>       
+
+### Local variables
+
+- `$data` - data object passed to render method
+- `$item` - contains $data via $item.data as well as user options - an optional map of user-defined key-value pairs.
+
+
+	// tpl
+    <div>${ $item.someMethod() }</div>	
+    
+    // code
+	jqtpl.tmpl( tpl, {a:1}, {
+		someMethod: function(){ return 1; }
+	});
+	
+	//output
+    <div>1</div> 	
+
+
+	// tpl
+    <div>${a}</div>
+
+	// code
+	
+	// precompile an cache it
+	jte.template( "templateName", tpl );
+    jqtpl.tmpl( "templateName", {a:1} );
+    
+    // you can also delete the template from cache
+    delete jte.template["templateName"];
+
+	// output
+    <div>1</div>    
+
+
+## Tags
+
+### ${} - simple output (escaped per default)
+	// tpl
+    <div>${a}</div>
+	
+	// code
     jqtpl.tmpl( tpl, {a:123});
-##### Output
+    
+    // output
     <div>123</div>
 
-### Simple output but with array as data argument (escaped per default)
+### ${} - simple output but with array as data argument (escaped per default)
 
-##### Template   
+	//tpl
     <div>${a}</div>
-##### Code
+
+	// code
     jqtpl.tmpl( tpl, [{a:1},{a:2},{a:3}]);
-##### Output
+	
+	// output
     <div>1</div><div>2</div><div>3</div>
          
-### If property is a function - it will be called automatically    (escaped per default)      
+### ${} - if property is a function - it will be called automatically (escaped per default)      
 
-##### Template
+	// tpl
     <div>${a}</div>
-##### Code
+
+	// code
     jqtpl.tmpl( tpl, {
         a:function() {
             return 1 + 5;
         }
     });
-##### Output
+	
+	//output
     <div>6</div>
     
-### "if" statement
+### {{if}} and {{else}}
 
-##### Template
+	// tpl
     {{if a == 6}}
         <div>${a}</div>
     {{else a == 5}}
@@ -103,112 +147,98 @@ Following options are supported by render method
     {{else}}
         <div>a is not 6 and not 5</div>    
     {{/if}}
-##### Code
+    
+	// code
     jqtpl.tmpl( tpl, {a:6});
-##### Output
+	
+	// output
     <div>6</div>
 
-##### Code
+	// code
     jqtpl.tmpl( tpl, {a:5});
-###### Output
+
+	// output
     <div>a is not 6</div>
     
-### "each" statement
+### {{each}} looping.
 
-##### Template
+	// tpl
     {{each(i, name) names}}
         <div>${i}.${name}</div>
     {{/each}}        
-    
-or
+    	
+    // alternative syntax	
+	
 	{{each names}}
 		<div>${$index}.${$value}</div>
 	{{/each}}
     
-##### Code
+	// code
     jqtpl.tmpl( tpl, {names: ["A", "B"]});
-##### Output
+	
+	// output
     <div>0.A</div><div>1.B</div>
     
-### There is a way to avoid escaping if you know what you do :)
+### {{html}} - there is a way to avoid escaping if you know what you do :)
 
-##### Template
+	// tpl
     <div>{{html a}}</div>
-##### Code
+	
+	// code
     jqtpl.tmpl( tpl, {a:'<div id="123">2</div>'});
-##### Output
+
+	// output
     <div id="123">2</div>    
     
-### Named templates - there is a way to precompile the template using a string, so you can render this template later using its name
 
-##### Template
-    <div>${a}</div>
-##### Code
-	// precompile an cache it
-	jte.template( "templateName", tpl );
-    jqtpl.tmpl( "templateName", {a:1} );
-    
-    // you can also delete the template from cache
-    delete jte.template["templateName"];
-##### Output
-    <div>1</div>       
+### {{!}} - comments.
 
-### Local variables
-
-* $data - data object passed to render method
-* $item - contains $data via $item.data as well as user options - an optional map of user-defined key-value pairs.
-
-
-##### Template
-    <div>${ $item.someMethod() }</div>
-##### Code
-	jqtpl.tmpl( tpl, {a:1}, {
-		someMethod: function(){ return 1; }
-	});
-##### Output
-    <div>1</div> 	
-
-
-##### Template
-    <div>${a}</div>
-##### Code
-	// precompile an cache it
-	jte.template( "templateName", tpl );
-    jqtpl.tmpl( "templateName", {a:1} );
-    
-    // you can also delete the template from cache
-    delete jte.template["templateName"];
-##### Output
-    <div>1</div>    
-
-### Comments
-
-##### Template
+	// tpl
     <div>{{! its a comment}}</div>
-##### Code
+
+	// code
     jqtpl.tmpl( tpl );
-##### Output
+
+	// output
     <div></div>  
     
-### Partials
+### {{tmpl}} - subtemplates.
 
-There are 2 ways supported. 
-Note: passing json object with 2 curly brackets without any separation will break the 
-template engine: {{tmpl({a: {b: 1}}) "mypartial"}}
+Note: passing json object with 2 curly brackets without any separation will break the engine: {{tmpl({a: {b: 1}}) "mypartial"}} 
+    
+	// tpl
+    <div>{{tmpl({name: "Test"}) '${name}'}}</div>
 
-##### Template
-	// The first way is jquery-tmpl compatible and preferred:
-    <div>{{tmpl({name: "Test"}) "mypartial"}}</div>
+	// code
+    jqtpl.tmpl(tpl);
+    
+	// output
+    <div>Test</div>
+    
+    
+        
+## Express specific stuff
 
-	// The second way is provided by express and is not jquery-tmpl compatible:
-    <div>{{html partial("mypartial", {name: "Test"})}}</div>
+### Usage
 
-#### Partial template "mypartial"
+    app.set("view engine", "html");
+    app.register(".html", require("jqtpl").express);
+    
+### {{partial}} tag
+	
+	// tpl
+    <div>{{partial({name: "Test"}) "mypartial"}}</div>
+	
+	// mypartial.html
 	${name}
 	
-##### Code
+	// code
     jqtpl.tmpl( tpl );
-##### Output
+	
+	// output
     <div>Test</div> 
     
+    
+    
+        
      
