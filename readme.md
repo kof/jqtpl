@@ -210,6 +210,8 @@ Note: passing json object with 2 curly brackets without any separation will brea
     
 ### {{partial}} tag
 	
+Read express documentation here http://expressjs.com/guide.html#res.partial()
+	
 	// tpl
     <div>{{partial({name: "Test"}) "mypartial"}}</div>
 	
@@ -222,7 +224,26 @@ Note: passing json object with 2 curly brackets without any separation will brea
 	// output
     <div>Test</div> 
     
-    
+Using array of data:
+
+	// tpl
+    <div id="main">
+    	{{partial([{name: "Test1"}, {name: "Test2"}]) "mypartial"}}
+	</div>
+	
+	// mypartial.html
+	<div class="partial">
+		${mypartial.name}
+	</div>
+	
+	// code
+    jqtpl.tmpl( tpl );
+	
+	// output
+	<div id="main">
+		<div class="partial">Test1</div>
+		<div class="partial">Test2</div>
+    </div>
     
         
      
