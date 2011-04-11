@@ -88,6 +88,7 @@ test("partials using `partial`", 1, function() {
 test("partials using `partial`", 1, function() {
     stop();
     locals = {
+        as: global,
         test: [
             {a: 1},
             {a: 2},
