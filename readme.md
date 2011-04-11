@@ -199,7 +199,9 @@ Note: passing json object with 2 curly brackets without any separation will brea
 	// output
     <div>Test</div>
     
-    
+# Not jquery-tmpl compatible stuff  
+
+   
         
 ## Express specific stuff
 
