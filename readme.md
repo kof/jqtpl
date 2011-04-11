@@ -70,6 +70,7 @@ Named templates - there is a way to precompile the template using a string, so y
 - `$data` - data object passed to render method
 - `$item` - contains $data via $item.data as well as user options - an optional map of user-defined key-value pairs.
 
+Examples:
 
 	// tpl
     <div>${ $item.someMethod() }</div>	
@@ -81,23 +82,6 @@ Named templates - there is a way to precompile the template using a string, so y
 	
 	//output
     <div>1</div> 	
-
-
-	// tpl
-    <div>${a}</div>
-
-	// code
-	
-	// precompile an cache it
-	jte.template( "templateName", tpl );
-    jqtpl.tmpl( "templateName", {a:1} );
-    
-    // you can also delete the template from cache
-    delete jte.template["templateName"];
-
-	// output
-    <div>1</div>    
-
 
 ## Tags
 
