@@ -1,7 +1,7 @@
 {
     "name": "jqtpl",
     "description": "A port of jQuery's template engine",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "author": "Oleg Slobodskoi <oleg008@gmail.com>",
     "contributors": [
         { "name": "John Resig", "email": "jeresig@gmail.com" },
