@@ -261,5 +261,23 @@ Using array of data:
 		<div class="partial">Test2</div>
     </div>
     
-        
-     
+### {{layout}} tag
+
+Using layout tag in a view it is possible to define a layout within this view.
+Note: it is possible since express@2.2.1.
+
+	// tpl
+	
+	// mylayout.html
+	<html>
+	{{html body}}
+    </html>
+    
+    // myview.html
+    {{layout "mylayout"}}
+    	<div>myview</div> 
+    
+    // output
+    <html>
+		<div>myview</div>
+    </html>

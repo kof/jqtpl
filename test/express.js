@@ -101,5 +101,11 @@ test("partials using `partial`", 1, function() {
     });
 });
 
-
+test("layout tag", 1, function() {
+    stop();
+    request('/layouttest', function(data) {
+        equal(data, 'mylayout requested view mylayout', 'served html is correct');
+        start();
+    });
+});
 
