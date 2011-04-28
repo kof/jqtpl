@@ -109,3 +109,12 @@ test("layout tag", 1, function() {
     });
 });
 
+test("rendering multiple times of the same template #29", function() {
+    var template = 'Just example ${example}'
+    var je = require('../').express
+    var render = je.compile(template, {filename: 'example.html'})
+
+    equal(render({example: 'Hello'}), 'Just example Hello', 'template rendered correctly');
+    equal(render({example: 'Hello'}), 'Just example Hello', 'template rendered correctly');
+});
+
