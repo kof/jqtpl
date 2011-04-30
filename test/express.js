@@ -118,3 +118,19 @@ test("rendering multiple times of the same template #29", function() {
     equal(render({example: 'Hello'}), 'Just example Hello', 'template rendered correctly');
 });
 
+
+test("clean cache if template have to be recompiled", function() {
+    var je = require('../').express
+
+    var template = 'my template 1';
+    var render = je.compile(template, {filename: 'template.html'});
+
+    equal(render(), 'my template 1', 'template 1 rendered correctly');
+    
+    // now template has been changed
+    template = 'my template 2';
+    
+    render = je.compile(template, {filename: 'template.html'})
+
+    equal(render(), 'my template 2', 'template 2 rendered correctly after recompile');
+});
