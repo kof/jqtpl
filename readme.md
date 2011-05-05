@@ -56,11 +56,11 @@ Named templates - there is a way to precompile the template using a string, so y
 	// code
 
 	// precompile an cache it
-	jte.template( "templateName", tpl );
+	jqtpl.template( "templateName", tpl );
 	// render
     jqtpl.tmpl( "templateName", {a:1} );
     // you can also delete the template from cache
-    delete jte.template["templateName"];
+    delete jqtpl.template["templateName"];
 
 	// output
     <div>1</div>       
