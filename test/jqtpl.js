@@ -126,3 +126,11 @@ test('{{tmpl}}', function() {
 test('{{!}}', function() {
     equal( tmpl("<div>{{! its a comment}}</div>", {a:1}), "<div></div>", "comments work" );    
 });
+
+test('empty template', function() {
+    try {
+        equal(tmpl(''), '', 'empty template string rendered without errors');
+    } catch(e) {
+        ok(false, 'empty template shouldn\'t throw errors');
+    }
+});
