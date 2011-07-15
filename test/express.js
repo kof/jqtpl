@@ -109,6 +109,21 @@ test("layout tag", 1, function() {
     });
 });
 
+test("rendering template with a layout turned on", function() {
+    this.app.set('view options', {layout: true});
+    this.app.set('views', o.root + '/2');
+    locals = {
+        mylocal: "mylocal"    
+    };
+    
+    stop();
+    request('/views/test', function(data) {
+        equal(data, 'abc mylocal', 'template and layout rendered correctly');
+        start();
+    });
+});
+
+
 test("rendering multiple times of the same template #29", function() {
     var template = 'Just example ${example}'
     var je = require('../').express
@@ -135,13 +150,5 @@ test("clean cache if template have to be recompiled", function() {
     equal(render(), 'my template 2', 'template 2 rendered correctly after recompile');
 });
 
-test("rendering template with a layout turned on", function() {
-    this.app.set('view options', {layout: true});
-    this.app.set('views', o.root + '/2');
-    stop();
-    request('/views/test', function(data) {
-        equal(data, 'abc', 'template and layout rendered correctly');
-        start();
-    });
-});
+
 
