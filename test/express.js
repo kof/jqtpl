@@ -25,12 +25,12 @@ QUnit.module('express', {
         var app = this.app = express.createServer();
         
         app.set('view engine', 'html');
-        app.set('views', o.root + '/views');
+        app.set('views', o.root + '/1');
         app.set('view options', {layout: false});        
         // qunit copies jqtpl.express exports to global
         app.register('.html', global);
-        app.get('/:view', function(req, res){
-            res.render(req.params.view, locals);
+        app.get('/*', function(req, res){
+            res.render(req.url.substr(1), locals);
         });
         app.listen(o.port);
     },
@@ -134,3 +134,14 @@ test("clean cache if template have to be recompiled", function() {
 
     equal(render(), 'my template 2', 'template 2 rendered correctly after recompile');
 });
+
+test("rendering template with a layout turned on", function() {
+    this.app.set('view options', {layout: true});
+    this.app.set('views', o.root + '/2');
+    stop();
+    request('/views/test', function(data) {
+        equal(data, 'abc', 'template and layout rendered correctly');
+        start();
+    });
+});
+
