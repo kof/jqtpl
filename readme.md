@@ -217,7 +217,7 @@ Read express documentation here http://expressjs.com/guide.html#res.partial()
 	// tpl
 	
 	// myaction.html
-    <div>{{partial({test) "mypartial"}}</div>
+    <div>{{partial(test) "mypartial"}}</div>
 	
 	// mypartial.html
 	${name}
