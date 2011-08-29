@@ -40,7 +40,7 @@ http://docs.djangoproject.com/en/dev/topics/templates/
 
 ### jqtpl.tmpl(markup, data, options);
 
-Compile and render a template.
+Compile and render a template. It uses `jqtpl.template` method.
 
 - `markup` html code string
 - `data` object or array of data
@@ -49,6 +49,7 @@ Compile and render a template.
 ### jqtpl.template(name, tpl) 
 
 Named templates - there is a way to precompile the template using a string, so you can render this template later using its name.
+**Template is cached after this fn call.**
 
 	// tpl
     <div>${a}</div>
