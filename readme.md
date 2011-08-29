@@ -206,11 +206,13 @@ Note: passing json object with 2 curly brackets without any separation will brea
         
 ## Express specific stuff
 
+**Note: express is caching all templates in production!**
+
 ### Usage
 
     app.set("view engine", "html");
     app.register(".html", require("jqtpl").express);
-    
+
 ### {{partial}} tag
 	
 Read express documentation here http://expressjs.com/guide.html#res.partial()
