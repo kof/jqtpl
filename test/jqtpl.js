@@ -10,7 +10,6 @@ var tpl1 = "<div>${a}</div>",
     tpl11 = "{{if a == 1}}<div>${a}</div>{{else}}2{{/if}}",
     tpl12 = "{{if a == 1}}<div>${a}</div>{{else a==2 }}2{{else}}3{{/if}}";
 
-// "template" method
 test('method "template"', function() {
     equal( typeof template("test", tpl1), "function", "precompile template and cache using template name" );
     equal( tmpl("test", {a:1}), "<div>1</div>", "render using template name" );
@@ -18,11 +17,12 @@ test('method "template"', function() {
 });
 
 test('escaping', function() {
-    equal(tmpl("<div class='test'>test</div>"), "<div class='test'>test</div>", 'single quotes');
-    equal(tmpl('<div class="test">test</div>'), '<div class="test">test</div>', 'double quotes');
-    equal(tmpl("<script>var something = '${myvar}';</script>", {myvar: 'whatever'}), "<script>var something = 'whatever';</script>");
+    equal(tmpl("${ 'foo<div>bar</div>baz' }"), 'foo&lt;div&gt;bar&lt;/div&gt;baz', 'echoing escapes html');
+    equal(tmpl("${ r }", {r:'foo<div>bar</div>baz'}), 'foo&lt;div&gt;bar&lt;/div&gt;baz',  'echoing escapes html (lookup)');
+    equal(tmpl("${ '&' }"), '&amp;', 'echoing escapes ampersands 1');
+    equal(tmpl("${ '&amp;' }"), '&amp;amp;', 'echoing escapes ampersands 2');
+    equal(tmpl("${ '-<&>-<&>-' }"), '-&lt;&amp;&gt;-&lt;&amp;&gt;-', 'echoing escapes & < >');
 });
-
 
 test('${}', function() {
     equal( tmpl(tpl1, {a:1}), "<div>1</div>", "use simple data object" );
@@ -43,7 +43,6 @@ test('local variables', function() {
 test('${html}', function() {
     equal( tmpl(tpl6,{a:'<div id="123">2</div>'}), '<div id="123">2</div>', 'output html without escaping');
 });
-
 
 test('${if}', function() {
     equal( tmpl(tpl9,{a:1}), "<div>1</div>", "test 'if' when true" );
