@@ -126,3 +126,10 @@ test('{{tmpl}}', function() {
 test('{{!}}', function() {
     equal( tmpl("<div>{{! its a comment}}</div>", {a:1}), "<div></div>", "comments work" );    
 });
+
+test('${x|"default"}', function() {
+	equal( tmpl("<div>${a|'doggy'}</div>", {a:1}), "<div>1</div>", "use not null value when default is defined" );    
+	equal( tmpl("<div>${a|'doggy'}</div>", {a:null}), "<div>doggy</div>", "use default value when value is null" );
+	equal( tmpl("<div>${a|somevar}</div>", {a:null, somevar:10}), "<div>10</div>", "use default value when value is null" );
+});
+
