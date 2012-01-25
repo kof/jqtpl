@@ -126,6 +126,17 @@ test('{{!}}', function() {
     equal( tmpl("<div>{{! its a comment}}</div>", {a:1}), "<div></div>", "comments work" );    
 });
 
+test('{{verbatim}}', function() {
+    equal(
+        tmpl(
+            "<div>{{= a}}{{verbatim}}${a}12345{{/verbatim}{{/verbatim}}{{verbatim}}}{{= a}}{{/verbatim}}${a}</div>",
+            {a:1}
+        ),
+        "<div>1${a}12345{{/verbatim}}{{= a}}1</div>",
+        "verbatim"
+    );
+});
+
 test('empty template', function() {
     try {
         equal(tmpl(''), '', 'empty template string rendered without errors');
