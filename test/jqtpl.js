@@ -133,3 +133,43 @@ test('empty template', function() {
         ok(false, 'empty template shouldn\'t throw errors');
     }
 });
+
+test('preserve whitespaces', function() {
+    var html;
+
+    try {
+        html = tmpl(
+            '<div>\n{{= [{\tkey: \n"value"\r}] }}\n</div>', 
+            {}
+        );
+        ok(true, 'no compilation errors');
+    } catch(err) {
+        ok(false, err.message);
+    }
+
+    equal(
+        html,
+        '<div>\n[object Object]\n</div>',
+        'whitespaces preserved'
+    );
+
+    try {
+        html = tmpl(
+            '<div>\n{{= someFunction({\tkey: \n"value"\r}) }}\n</div>', 
+            {
+                someFunction: function(data) {
+                    return 'some text ' + data.key;       
+                }
+            }
+        );
+        ok(true, 'no compilation errors');
+    } catch(err) {
+        ok(false, err.message);
+    }
+
+    equal(
+        html,
+        '<div>\nsome text value\n</div>',
+        'whitespaces preserved'
+    );
+});
