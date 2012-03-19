@@ -46,42 +46,42 @@ test('${html}', function() {
 
 test('${if}', function() {
     equal( tmpl(tpl9,{a:1}), "<div>1</div>", "test 'if' when true" );
-    equal( tmpl(tpl9,{a:2}), "", "test 'if' when false" );    
+    equal( tmpl(tpl9,{a:2}), "", "test 'if' when false" );
 });
 
 test('{else}', function() {
     equal( tmpl(tpl11,{a:1}), "<div>1</div>", "test else when true" );
     equal( tmpl(tpl11,{a:2}), "2", "test else when false" );
     equal( tmpl(tpl12,{a:2}), "2", "test else =2" );
-    equal( tmpl(tpl12,{a:3}), "3", "test else =3" );    
+    equal( tmpl(tpl12,{a:3}), "3", "test else =3" );
 });
 
 test('{{each}}', function() {
-    equal( 
+    equal(
         tmpl(
-            "{{each(index, value) names}}<div>${index}.${value}</div>{{/each}}", 
+            "{{each(index, value) names}}<div>${index}.${value}</div>{{/each}}",
             {names: ["A", "B"]}
-        ), 
-        "<div>0.A</div><div>1.B</div>", "test 'each', use index and value, explizitely mapping them " 
+        ),
+        "<div>0.A</div><div>1.B</div>", "test 'each', use index and value, explizitely mapping them "
     );
-    equal( 
+    equal(
         tmpl(
-            "{{each names}}<div>${$index}.${$value}</div>{{/each}}", 
+            "{{each names}}<div>${$index}.${$value}</div>{{/each}}",
             {names: ["A", "B"]}
-        ), 
-        "<div>0.A</div><div>1.B</div>", "test 'each', use index and name with auto mapping" 
+        ),
+        "<div>0.A</div><div>1.B</div>", "test 'each', use index and name with auto mapping"
     );
-    equal( 
+    equal(
         tmpl(
             "{{each $item.getData()}}<div>${$value}</div>{{/each}}",
-            null, 
-            { 
-                getData: function(){ 
+            null,
+            {
+                getData: function(){
                     return [1,2,3];
                 }
             }
-        ), 
-        "<div>1</div><div>2</div><div>3</div>", "test 'each', using templates variables" 
+        ),
+        "<div>1</div><div>2</div><div>3</div>", "test 'each', using templates variables"
     );
     equal(
         tmpl(
@@ -92,38 +92,38 @@ test('{{each}}', function() {
         ),
         "<div>1</div><div>2</div><div>3</div>",
         "iterate over json in each loop"
-    );    
+    );
 });
 
 
 test('{{tmpl}}', function() {
-    equal( 
+    equal(
         tmpl(
-            "{{tmpl(data) extTpl}}", 
-            {    
+            "{{tmpl(data) extTpl}}",
+            {
                 extTpl: "<div>${a}</div>",
                 data: {a:123456}
             }
-        ), 
-        "<div>123456</div>", 
-        "include template {{tmpl}} and pass data object" 
+        ),
+        "<div>123456</div>",
+        "include template {{tmpl}} and pass data object"
     );
 
-    equal( 
+    equal(
         tmpl(
-            "{{tmpl(data) extTpl}}", 
-            {    
+            "{{tmpl(data) extTpl}}",
+            {
                 extTpl: "<div>${a}</div>",
                 data: [{a:1}, {a:2}]
             }
-        ), 
-        "<div>1</div><div>2</div>", 
-        "include template {{tmpl}} and pass data array" 
-    ); 
+        ),
+        "<div>1</div><div>2</div>",
+        "include template {{tmpl}} and pass data array"
+    );
 });
 
 test('{{!}}', function() {
-    equal( tmpl("<div>{{! its a comment}}</div>", {a:1}), "<div></div>", "comments work" );    
+    equal( tmpl("<div>{{! its a comment}}</div>", {a:1}), "<div></div>", "comments work" );
 });
 
 test('empty template', function() {
@@ -139,7 +139,7 @@ test('preserve whitespaces', function() {
 
     try {
         html = tmpl(
-            '<div>\n{{= [{\tkey: \n"value"\r}] }}\n</div>', 
+            '<div>\n{{= [{\tkey: \n"value"\r}] }}\n</div>',
             {}
         );
         ok(true, 'no compilation errors');
@@ -155,10 +155,10 @@ test('preserve whitespaces', function() {
 
     try {
         html = tmpl(
-            '<div>\n{{= someFunction({\tkey: \n"value"\r}) }}\n</div>', 
+            '<div>\n{{= someFunction({\tkey: \n"value"\r}) }}\n</div>',
             {
                 someFunction: function(data) {
-                    return 'some text ' + data.key;       
+                    return 'some text ' + data.key;
                 }
             }
         );
@@ -171,5 +171,16 @@ test('preserve whitespaces', function() {
         html,
         '<div>\nsome text value\n</div>',
         'whitespaces preserved'
+    );
+});
+
+test('{{verbatim}}', function() {
+    equal(
+        tmpl(
+            "<div>{{= a}}{{verbatim}}${a}12345{{/verbatim}{{/verbatim}}{{verbatim}}}{{= a}}{{/verbatim}}${a}</div>",
+            {a:1}
+        ),
+        "<div>1${a}12345{{/verbatim}}{{= a}}1</div>",
+        "verbatim"
     );
 });
