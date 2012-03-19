@@ -18,7 +18,6 @@ options.express = {
     'view options': {layout: false}
 };
 
-
 server = createServer();
 
 function post(path, data, callback) {
@@ -61,12 +60,13 @@ function createServer(opts) {
     return server;
 }
 
-test("locals", 1, function() {
-   stop();
-   post('/view', {a:1}, function(data) {
+test("locals", function() {
+    expect(1);
+    stop();
+    post('/view', {a:1}, function(data) {
        equal(data, '<div>1</div>', 'template rendered correctly');
        start();
-   });
+    });
 });
 
 test("scope option", function() {
@@ -92,7 +92,8 @@ test("debug option", function() {
     ok( printed, "debug option works" );
 });
 
-test("partials using `partial`", 1, function() {
+test("partials using `partial`", function() {
+    expect(1);
     stop();
     post('/partialtest', {test: {a: 1}}, function(data) {
         equal(data, '<div>1</div>', 'data is an object');
@@ -100,7 +101,8 @@ test("partials using `partial`", 1, function() {
     });
 });
 
-test("partials using `partial`", 1, function() {
+test("partials using `partial`", function() {
+    expect(1);
     stop();
     var data = {
             test: [
@@ -115,11 +117,16 @@ test("partials using `partial`", 1, function() {
     });
 });
 
-test("layout tag", 1, function() {
+test("layout tag", function() {
+    var html = 'mylayout requested view mylayout';
+    expect(2);
     stop();
     post('/layouttest', function(data) {
-        equal(data, 'mylayout requested view mylayout', 'served html is correct');
-        start();
+        equal(data, html, 'served html is correct');
+        post('/layouttest', function(data) {
+            ok(data, html, 'if caching is turned, second call should work too #46');
+            start();
+        });
     });
 });
 
@@ -149,6 +156,7 @@ test("clean cache if template have to be recompiled", function() {
 });
 
 test("rendering template with a layout turned on", function() {
+    expect(1);
     stop();
     server.close();
     server = createServer({
