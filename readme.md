@@ -121,10 +121,14 @@ http://api.jquery.com/category/plugins/templates/
 
 ### {{partial}} - subtemplates.
 
+Render subtemplates by passing a template string, template name or file name (serverside).
+
 Note: passing json object with 2 curly brackets without any separation will break the engine: {{partial({a: {b: 1}}) 'mypartial'}}
 
 	// tpl
     <div>{{partial({name: 'Test'}) '${name}'}}</div>
+    <div>{{partial 'myTemplate'}}</div>
+    <div>{{partial 'myTemplate.html'}}</div>
 
 	// code
     jqtpl.render(tpl);
@@ -170,12 +174,12 @@ Compile and render a template. It uses `jqtpl.template` method. Returns a render
 - `data` optional object or array of data.
 - `options` optional options object.
 
-### jqtpl.compile([name], markup)
+### jqtpl.compile(markup, [name])
 
 Compile and cache a template string. Returns a compiled template function.
 
-- `name` optional template name, if no name is passed - markup string will be used as a name.
 - `markup` html string.
+- `name` optional template name, if no name is passed - markup string will be used as a name.
 
 
     // tpl
@@ -184,7 +188,7 @@ Compile and cache a template string. Returns a compiled template function.
     // code
 
     // precompile an cache it
-    jqtpl.compile('myTemplate', tpl);
+    jqtpl.compile(tpl, 'myTemplate');
 
     // render
     jqtpl.render('myTemplate', {a:1});
@@ -210,57 +214,6 @@ A map of compiled templates.
 
     app.set('view engine', 'html');
     app.register('.html', require('jqtpl').express);
-
-### {{partial}} tag
-
-Read express documentation here http://expressjs.com/guide.html#res.partial()
-
-	// tpl
-
-	// myaction.html
-    <div>{{partial(test) 'mypartial'}}</div>
-
-	// mypartial.html
-	${name}
-
-	// code
-	app.get('/myaction', function(req, res) {
-		res.render('myaction', {test: {name: 'Test'}});
-	})
-
-	// output
-    <div>Test</div>
-
-Using array of data:
-
-	// tpl
-
-	// myaction.html
-    <div id='main'>
-    	{{partial(test) 'mypartial'}}
-	</div>
-
-	// mypartial.html
-	<div class='partial'>
-		${name}
-	</div>
-
-	// code
-	app.get('/myaction', function(req, res) {
-		res.render('myaction', {
-			as: global,
-			test: [
-				{name: 'Test1'},
-				{name: 'Test2'}
-			]
-		});
-	})
-
-	// output
-	<div id='main'>
-		<div class='partial'>Test1</div>
-		<div class='partial'>Test2</div>
-    </div>
 
 ### {{layout}} tag
 

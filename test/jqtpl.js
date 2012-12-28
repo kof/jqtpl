@@ -224,10 +224,10 @@ test('{{each}}', function() {
 });
 
 test('{{partial}}', function() {
-    compile('test', '${ "test text" }');
+    compile('${ "test text" }', 'test');
     equal(render('{{partial "test"}}'), 'test text', 'rendered partial from cache');
 
-    compile('nested', '{{partial "test" }');
+    compile('{{partial "test" }', 'nested');
     equal(render('{{partial "nested"}}'), 'nested test text', 'rendered nested partial from cache');
 
     equal(

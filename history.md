@@ -1,0 +1,12 @@
+## 2.0.0
+- Dropped compatibility to the original engine, as it is not any more developed
+- Make API nicer:
+  - jqtpl.tmpl -> jqtpl.render
+  - jqtpl.render returns always a string.
+  - jqtpl.template -> jqtpl.compile
+  - jqtpl.tempalte[name] -> jqtpl.cache[name]
+- Make {{each}} tag [].forEach compatible - pass value as first, iteration as a second argument.
+- Rename {{tmpl}} tag to {{partial}}.
+- Port unit tests from original engine.
+- Add browser and AMD support
+- Added support express 3.0.x

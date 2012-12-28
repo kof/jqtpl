@@ -14,8 +14,7 @@ options = {
 
 options.express = {
     views: options.root + '/1',
-    'view engine': 'html',
-    'view options': {layout: false}
+    'view engine': 'html'
 };
 
 server = createServer();
@@ -31,7 +30,7 @@ function post(path, data, callback) {
         json: data
     }, function(err, res) {
         if (err) {
-            throw new Error(err);
+            throw new err;
         }
 
         callback(res.body);
@@ -46,8 +45,7 @@ function createServer(opts) {
         server.set(name, val);
     });
 
-    // qunit copies jqtpl.express exports to global
-    server.register('.html', global);
+    server.engine('html', __express);
 
     server.post('/*', function(req, res){
         if (req.body) {
@@ -57,6 +55,7 @@ function createServer(opts) {
     });
 
     server.listen(options.port);
+
     return server;
 }
 
