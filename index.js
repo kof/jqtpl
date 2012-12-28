@@ -1,2 +1,2 @@
 module.exports = require('./lib/jqtpl');
-module.exports.express = require('./lib/jqtpl.express');
+module.exports.__express = require('./lib/express');
