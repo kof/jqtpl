@@ -85,6 +85,71 @@ test("Falsy lookups", function() {
 });
 
 
+test("Javascript operations", function() {
+    equal(render('${ one + "foo" }', {one: 'first'}), 'firstfoo', 'string concatination');
+    equal(render('${ 1 + 5 }'), '6', 'adding');
+    equal(render('${ 9 - 5 }'), '4', 'subtracting');
+    equal(render('${ 5 % 2 }'), '1', 'modulo');
+    equal(render('${ -n }', {n:10}), '-10', 'unary minus');
+    equal(render('${ +n }', {n:"10"}), '10', 'unary plus');
+    equal(render('${ "bar" in foo }', {foo:{bar:'baz'}}), 'true', 'in operator');
+    equal(render('${ foo instanceof Date }', {foo:new Date()}), 'true', 'instanceof operator');
+    equal(render('${ typeof "str" }'), 'string', 'typeof operator');
+    equal(render('${ n & 1 }', {n:5}), '1', 'bitwise AND');
+    equal(render('${ n | 1 }', {n:4}), '5', 'bitwise OR');
+    equal(render('${ n ^ 1 }', {n:5}), '4', 'bitwise XOR');
+    equal(render('${ ~n }', {n:5}), '-6', 'bitwise NOT');
+    equal(render('${ n << 1 }', {n:5}), '10', 'left shift');
+    equal(render('${ n >> 1 }', {n:5}), '2', 'right shift');
+    equal(render('${ n >>> 1 }', {n:5}), '2', 'zero-fill right shift');
+    equal(render('${ 1 == 5 }'), 'false', 'comparing ==');
+    equal(render('${ 1 != 5 }'), 'true', 'comparing !=');
+    equal(render('${ 5 === 5 }'), 'true', 'comparing ===');
+    equal(render('${ 5 !== 5 }'), 'false', 'comparing !==');
+    equal(render('${ 1 >= 5 }'), 'false', 'comparing >=');
+    equal(render('${ 1 > 5 }'), 'false', 'comparing >');
+    equal(render('${ 1 <= 5 }'), 'true', 'comparing <=');
+    equal(render('${ 1 < 5 }'), 'true', 'comparing <');
+    equal(render('${ zero || "FALSY" }', {zero: 0}), 'FALSY', 'Logical OR');
+    equal(render('${ zero && "TRUEY" }', {zero: 1}), 'TRUEY', 'Logical AND');
+    equal(render('${ zero ? "zero" : "other" }', {zero: 1}), 'zero', 'Conditional Operator');
+    equal(render('${ !zero }', {zero: 1}), 'false', 'Unary logical NOT');
+    equal(render("${ 'test' }"), 'test', 'Single-Quoted Strings');
+    equal(render("${ 'test' == testvar }", { testvar: 'test' }), 'true', 'Single-Quoted Comparison');
+});
+
+var testData = {},
+    out;
+
+function R(a, b) {
+    out = "equal(render('" + a + "'), ";
+}
+
+function test_handler(msg, actual, expected) {
+out += "'" + expected + "', '" + msg + "');";
+console.log(out);
+}
+
+/*
+FIXME
+test("Disallowed / illegal", function() {
+    equal(render('${ a += 1 }', {a: 1}), SyntaxError, 'Disallow incremental assignment');
+    equal(render('${ a -= 1 }', {a: 1}), SyntaxError, 'Disallow decremental assignment');
+    equal(render('${ a *= 1 }', {a: 1}), SyntaxError, 'Disallow multiply assignment');
+    equal(render('${ a /= 1 }', {a: 1}), SyntaxError, 'Disallow division assignment');
+    equal(render('${ a <<= 1 }', {a: 1}), SyntaxError, 'Disallow left shift assignment');
+    equal(render('${ a >>= 1 }', {a: 1}), SyntaxError, 'Disallow right shift assignment');
+    equal(render('${ a >>>= 1 }', {a: 1}), SyntaxError, 'Disallow zero-fill right shift assignment');
+    equal(render('${ a &= 1 }', {a: 1}), SyntaxError, 'Disallow bitwise AND assignment');
+    equal(render('${ a |= 1 }', {a: 1}), SyntaxError, 'Disallow bitwise OR assignment');
+    equal(render('${ a ^= 1 }', {a: 1}), SyntaxError, 'Disallow bitwise XOR assignment');
+    equal(render('${ { a:"a"} }', {a: 1}), SyntaxError, 'Disallow literal object creation');
+    equal(render('${ [1,2,3] }', {a: 1}), SyntaxError, 'Disallow literal array creation');
+    equal(render('${ --a }', {a: 1}), SyntaxError, 'Disallow decrement');
+    equal(render('${ (a = 2) }', {a: 1}), SyntaxError, 'Disallow assignments');
+});
+*/
+
 test("Bracketed accessors", function() {
     equal(render('${ foo["bar"] }',{foo:{bar:'baz'}}), 'baz', 'foo["bar"]');
     equal(render("${ foo['bar'] }",{foo:{bar:'baz'}}), 'baz', "foo['bar']");
@@ -98,20 +163,18 @@ test('${html}', function() {
     );
 });
 
-test('${if}', function() {
-    var tpl = '{{if a == 1}}<div>${a}</div>{{/if}}';
-    equal(render(tpl,{a:1}), '<div>1</div>', 'test "if" when true');
-    equal(render(tpl,{a:2}), '', 'test "if" when false');
-});
-
-test('{else}', function() {
-    var tpl1 = '{{if a == 1}}<div>${a}</div>{{else}}2{{/if}}',
-        tpl2 = '{{if a == 1}}<div>${a}</div>{{else a==2 }}2{{else}}3{{/if}}';
-
-    equal(render(tpl1,{a:1}), '<div>1</div>', 'test else when true');
-    equal(render(tpl1,{a:2}), '2', 'test else when false');
-    equal(render(tpl2,{a:2}), '2', 'test else =2');
-    equal(render(tpl2,{a:3}), '3', 'test else =3');
+test('{{if}} {{else}}', function() {
+    equal(render('{{if a}}TRUE{{else}}FALSE{{/if}}', {a: true}), 'TRUE', 'if:true');
+    equal(render('{{if a}}TRUE{{else}}FALSE{{/if}}', {a: false}), 'FALSE', 'if:false');
+    equal(render('{{if a}}TRUE{{else}}FALSE{{/if}}', {a: null}), 'FALSE', 'if:null');
+    equal(render('{{if a}}TRUE{{else}}FALSE{{/if}}', {a: undefined}), 'FALSE', 'if:undefined');
+    equal(render('{{if a}}TRUE{{else}}FALSE{{/if}}', {a: {}}), 'TRUE', 'if:[]');
+    equal(render('{{if a}}TRUE{{else}}FALSE{{/if}}', {a: []}), 'TRUE', 'if:{}');
+    equal(render('{{if a}}TRUE{{else}}FALSE{{/if}}', {a: ''}), 'FALSE', 'if:""');
+    equal(render('{{if a}}TRUE{{else}}FALSE{{/if}}', {a: 'A'}), 'TRUE', 'if:A');
+    equal(render('{{if a}}TRUE{{else}}FALSE{{/if}}', {a: 0}), 'FALSE', 'if:0');
+    equal(render('{{if a}}TRUE{{else}}FALSE{{/if}}', {a: 1}), 'TRUE', 'if:1');
+    equal(render('{{if a}}TRUE{{else}}FALSE{{/if a}}', {a: 1}), 'TRUE', '/if ignores following text');
 });
 
 test("Incorrect nesting", function() {
@@ -124,7 +187,7 @@ test("Incorrect nesting", function() {
 test('{{each}}', function() {
     equal(
         render(
-            '{{each(index, value) names}}<div>${index}.${value}</div>{{/each}}',
+            '{{each(value, index) names}}<div>${index}.${value}</div>{{/each}}',
             {names: ['A', 'B']}
        ),
         '<div>0.A</div><div>1.B</div>', 'test "each", use index and value, explizitely mapping them '
@@ -161,6 +224,12 @@ test('{{each}}', function() {
 });
 
 test('{{partial}}', function() {
+    compile('test', '${ "test text" }');
+    equal(render('{{partial "test"}}'), 'test text', 'rendered partial from cache');
+
+    compile('nested', '{{partial "test" }');
+    equal(render('{{partial "nested"}}'), 'nested test text', 'rendered nested partial from cache');
+
     equal(
         render(
             '{{partial(data) extTpl}}',
@@ -201,8 +270,6 @@ test('{{!}}', function() {
     // test_handler( "comments may contain invalid content (stray end tag)", R('1{{! {{/if}} }}2', testData), '12' );
     // test_handler( "comments may contain invalid content (stray else)", R('1{{! {{else}} }}2', testData), '12' );
     // test_handler( "comments may contain invalid content (invalid javascript)", R('1{{! {{if ...}} }}2', testData), '12' );
-
-
 });
 
 test('preserve whitespaces', function() {
@@ -241,7 +308,6 @@ test("{{verbatim}}", function() {
    );
 });
 
-
 test('Error reporting', function() {
     throws(function() { render('${ a b c }}'); }, SyntaxError, 'syntax error');
     throws(function() { render('${a.b}'); }, ReferenceError, 'reference error');
@@ -261,7 +327,6 @@ test('Escaping', function() {
     equal(render('${ "on\\e" }'), 'one', 'slashes in strings do not kill tags');
     equal(render('a\nb\nc${ 8 }.'), 'a\nb\nc8.', 'newlines do not kill parsing');
 });
-
 
 test("Ignore malformed tags", function() {
     equal(render('a {{one } b'), 'a {{one } b', 'a {{one } b');
@@ -283,4 +348,3 @@ test("Reserved words", function() {
     throws(function() { render('${ with (s) }'); }, SyntaxError, 'Disallow with keyword');
     throws(function() { render('${ throw "foo" }'); }, SyntaxError, 'Disallow throw keyword');
 });
-

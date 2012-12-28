@@ -2,24 +2,23 @@
 
 - Logic-less.
 - Extendable - implement your own tags.
-- Html escaped per default.
+- Html escaped.
 
 ### Originally started as a port of jquery templates.
 
 http://github.com/jquery/jquery-tmpl
+
 http://api.jquery.com/category/plugins/templates/
 
-**Now compatibility to the original engine is dropped as it is not developed any more.**
+**Now compatibility to the original engine is dropped as it is not any more developed.**
 
-### Installation via npm
-	$ npm install jqtpl
-
-### Run tests
+### Installation
+	$ npm i jqtpl
     $ make test
 
 ## Template API
 
-### ${} - simple output (escaped per default)
+### ${} - simple output (escaped)
 	// tpl
     <div>${a}</div>
 
@@ -29,7 +28,7 @@ http://api.jquery.com/category/plugins/templates/
     // output
     <div>123</div>
 
-### ${} - simple output but with array as data argument (escaped per default)
+### ${} - simple output with array as data argument (escaped)
 
 	//tpl
     <div>${a}</div>
@@ -40,7 +39,7 @@ http://api.jquery.com/category/plugins/templates/
 	// output
     <div>1</div><div>2</div><div>3</div>
 
-### ${} - if property is a function - it will be called automatically (escaped per default)
+### ${} - if property is a function - it will be called automatically (escaped)
 
 	// tpl
     <div>${a}</div>
@@ -81,7 +80,7 @@ http://api.jquery.com/category/plugins/templates/
 ### {{each}} looping.
 
 	// tpl
-    {{each(i, name) names}}
+    {{each(name, i) names}}
         <div>${i}.${name}</div>
     {{/each}}
 
@@ -136,9 +135,9 @@ Note: passing json object with 2 curly brackets without any separation will brea
 
 ### {{verbatim}} tag
 
-Skip a part of your template - leave it as a template on the same place but without "verbatim" tag. If you render the result as a template again - it will be rendered.
+Skip a part of your template - leave it in original on the same place but without "verbatim" tag. If you render the result as a template again - it will be rendered.
 
-The use case is to be able to render the same template partially on the server and on the client. F.e. a layout template can contain variables which needs to be rendered on the server and templates which needs to be rendered on the client.
+The use case is to be able to render the same template partially on the server and on the client. F.e. a layout template can contain variables which needs to be rendered on the server and templates which need to be rendered on the client.
 
     // mytemplate.html
     <div>my name is ${name}</div>
@@ -163,12 +162,12 @@ The use case is to be able to render the same template partially on the server a
 ### require the module
     var jqtpl = require('jqtpl');
 
-### jqtpl.render(markup, data, options);
+### jqtpl.render(markup, [data], [options]);
 
 Compile and render a template. It uses `jqtpl.template` method. Returns a rendered html string.
 
 - `markup` html code or precompiled template name.
-- `data` object or array of data.
+- `data` optional object or array of data.
 - `options` optional options object.
 
 ### jqtpl.compile([name], markup)
@@ -177,6 +176,7 @@ Compile and cache a template string. Returns a compiled template function.
 
 - `name` optional template name, if no name is passed - markup string will be used as a name.
 - `markup` html string.
+
 
     // tpl
     <div>${a}</div>
@@ -282,3 +282,5 @@ Note: it is possible since express@2.2.1.
     <html>
 		<div>myview</div>
     </html>
+
+
