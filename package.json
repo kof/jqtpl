@@ -10,6 +10,7 @@
     "keywords": ["template", "engine", "jquery", "jquery-tmpl", "logic-less"],
     "engines": {"node": "*"},
     "devDependencies": {
+        "express": "3.0.x",
         "qunit": "0.5.x",
         "underscore": "*",
         "request": "2.9.x"
