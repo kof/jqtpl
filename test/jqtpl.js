@@ -10,17 +10,6 @@ test('Variables ${}, {{=}}', function() {
     equal(render('<div>{{= a}}</div>', [{a:1}]), '<div>1</div>', 'use an array with one object element, using {{= }} in the template');
     equal(render('<div>${a}</div>', [{a:1},{a:2}]), '<div>1</div><div>2</div>', 'use an array with 2 objects');
     equal(render('<div>${a}</div>', {a: function(){return 1}}), '<div>1</div>', 'use function as a value');
-    equal(render('<div>${$data.a}</div>', {a:1}), '<div>1</div>', 'test access to $data');
-    equal(render('<div>${$item.data.a}</div>', {a:1}), '<div>1</div>', 'test access to $item');
-    equal(
-        render(
-            '<div>${$item.someFunction()}</div>',
-            null,
-            {someFunction: function() { return 1; }}
-        ),
-        '<div>1</div>',
-        'test access to $item'
-    );
     equal(render('${ "string" }'), 'string', 'basic string output (double)');
     equal(render("${ 'string' }"), 'string', 'basic string output (single)');
     equal(render('${ isUndefined }'), '', 'variable lookup error suppression');
@@ -201,15 +190,14 @@ test('{{each}}', function() {
    );
     equal(
         render(
-            '{{each $item.getData()}}<div>${$value}</div>{{/each}}',
-            null,
+            '{{each getData()}}<div>${$value}</div>{{/each}}',
             {
                 getData: function(){
                     return [1,2,3];
                 }
             }
        ),
-        '<div>1</div><div>2</div><div>3</div>', 'test "each", using templates variables'
+        '<div>1</div><div>2</div><div>3</div>', 'test "each", using template variables'
    );
     equal(
         render(

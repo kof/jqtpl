@@ -7,6 +7,14 @@
   - jqtpl.tempalte[name] -> jqtpl.cache[name]
 - Make {{each}} tag [].forEach compatible - pass value as first, iteration as a second argument.
 - Rename {{tmpl}} tag to {{partial}}.
+- For those who has implemented custom tags:
+    - For less conflicts renamed:
+        - "_" -> "__res"
+        - "$1" -> "__1"
+        - "$2" -> "__2"
+        - "$1a" -> "__1a"
+        - "$data" -> "__data"
+    - Removed $data and $item local variables in tempaltes.
 - Port unit tests from original engine.
 - Add browser and AMD support
 - Added support express 3.0.x
