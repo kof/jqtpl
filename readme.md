@@ -18,40 +18,37 @@ http://api.jquery.com/category/plugins/templates/
 
 ## Template API
 
-### ${} - simple output (escaped)
+### ${}, {{=}} print variable, array or function (escaped)
+
+- Print variable
+
 	// tpl
     <div>${a}</div>
-
 	// code
     jqtpl.render(tpl, {a:123});
-
     // output
     <div>123</div>
 
-### ${} - simple output with array as data argument (escaped)
+- Print array
 
-	//tpl
+    //tpl
     <div>${a}</div>
-
-	// code
+    // code
     jqtpl.render(tpl, [{a:1},{a:2},{a:3}]);
-
-	// output
+    // output
     <div>1</div><div>2</div><div>3</div>
 
-### ${} - if property is a function - it will be called automatically (escaped)
+- Print automatically detected function
 
-	// tpl
+    // tpl
     <div>${a}</div>
-
-	// code
+    // code
     jqtpl.render(tpl, {
         a: function() {
             return 1 + 5;
        }
    });
-
-	//output
+    //output
     <div>6</div>
 
 ### {{if}} and {{else}}
@@ -85,7 +82,6 @@ http://api.jquery.com/category/plugins/templates/
     {{/each}}
 
     // alternative syntax
-
 	{{each names}}
 		<div>${$index}.${$value}</div>
 	{{/each}}
@@ -96,16 +92,16 @@ http://api.jquery.com/category/plugins/templates/
 	// output
     <div>0.A</div><div>1.B</div>
 
-### {{html}} - there is a way to avoid escaping if you know what you do :)
+### {{html}} -  print unescaped html.
 
 	// tpl
     <div>{{html a}}</div>
 
 	// code
-    jqtpl.render(tpl, {a:'<div id='123'>2</div>'});
+    jqtpl.render(tpl, {a:'<div id="123">2</div>'});
 
 	// output
-    <div id='123'>2</div>
+    <div id="123">2</div>
 
 
 ### {{!}} - comments.
@@ -123,7 +119,7 @@ http://api.jquery.com/category/plugins/templates/
 
 Render subtemplates by passing a template string, template name or file name (serverside).
 
-Note: passing json object with 2 curly brackets without any separation will break the engine: {{partial({a: {b: 1}}) 'mypartial'}}
+**Note: passing json object with 2 curly brackets without any separation will break the engine: {{partial({a: {b: 1}}) 'mypartial'}}**
 
 	// tpl
     <div>{{partial({name: 'Test'}) '${name}'}}</div>
@@ -181,7 +177,6 @@ Compile and cache a template string. Returns a compiled template function.
 - `markup` html string.
 - `name` optional template name, if no name is passed - markup string will be used as a name.
 
-
     // tpl
     <div>${a}</div>
 
@@ -190,10 +185,10 @@ Compile and cache a template string. Returns a compiled template function.
     // precompile an cache it
     jqtpl.compile(tpl, 'myTemplate');
 
-    // render
+    // render user a name
     jqtpl.render('myTemplate', {a:1});
 
-    // you can also delete the template from cache
+    // delete the template from cache
     delete jqtpl.cache['myTemplate'];
 
     // output
@@ -213,7 +208,7 @@ A map of compiled templates.
 ### Usage
 
     app.set('view engine', 'html');
-    app.register('.html', require('jqtpl').express);
+    app.engine('.html', require('jqtpl').__express);
 
 ### {{layout}} tag
 

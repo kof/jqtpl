@@ -24,7 +24,7 @@ function createServer() {
     });
 
     server.use(express.bodyParser());
-    server.engine('html', __express);
+    server.engine('html', render);
 
     server.post('/*', function(req, res){
         res.render(req.url.substr(1), req.body);
