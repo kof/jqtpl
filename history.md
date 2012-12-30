@@ -15,6 +15,7 @@
         - "$1a" -> "__1a"
         - "$data" -> "__data"
     - Removed $data and $item local variables in tempaltes.
+    - "_default" -> "default"
 - Port unit tests from original engine.
 - Add browser and AMD support
 - Add support express 3.0.x
