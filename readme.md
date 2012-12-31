@@ -2,7 +2,7 @@
 
 - Logic-less.
 - Extendable - implement your own tags.
-- Html escaped.
+- Html escaped per default.
 
 ### Originally started as a port of jquery templates.
 
@@ -10,7 +10,7 @@ http://github.com/jquery/jquery-tmpl
 
 http://api.jquery.com/category/plugins/templates/
 
-**Now compatibility to the original engine is dropped as it is not any more developed.**
+**Now compatibility to the original engine is dropped as jquery-tmpl is not any more developed.**
 
 ### Installation
 	$ npm i jqtpl
@@ -22,34 +22,34 @@ http://api.jquery.com/category/plugins/templates/
 
 - Print variable
 
-	// tpl
-    <div>${a}</div>
-	// code
-    jqtpl.render(tpl, {a:123});
-    // output
-    <div>123</div>
+    	// tpl
+        <div>${a}</div>
+    	// code
+        jqtpl.render(tpl, {a:123});
+        // output
+        <div>123</div>
 
 - Print array
 
-    //tpl
-    <div>${a}</div>
-    // code
-    jqtpl.render(tpl, [{a:1},{a:2},{a:3}]);
-    // output
-    <div>1</div><div>2</div><div>3</div>
+        //tpl
+        <div>${a}</div>
+        // code
+        jqtpl.render(tpl, [{a:1},{a:2},{a:3}]);
+        // output
+        <div>1</div><div>2</div><div>3</div>
 
 - Print automatically detected function
 
-    // tpl
-    <div>${a}</div>
-    // code
-    jqtpl.render(tpl, {
-        a: function() {
-            return 1 + 5;
-       }
-   });
-    //output
-    <div>6</div>
+        // tpl
+        <div>${a}</div>
+        // code
+        jqtpl.render(tpl, {
+            a: function() {
+                return 1 + 5;
+           }
+       });
+        //output
+        <div>6</div>
 
 ### {{if}} and {{else}}
 
@@ -207,13 +207,13 @@ A map of compiled templates.
 
 ### Usage
 
+    app.set('views', '/path/to/the/views/dir');
     app.set('view engine', 'html');
-    app.engine('.html', require('jqtpl').__express);
+    app.engine('html', require('jqtpl').__express);
 
 ### {{layout}} tag
 
 Using layout tag in a view it is possible to define a layout within this view.
-Note: it is possible since express@2.2.1.
 
 	// tpl
 
@@ -226,9 +226,15 @@ Note: it is possible since express@2.2.1.
     {{layout 'mylayout'}}
     	<div>myview</div>
 
+    // myview1.html
+    {{layout({a: 1}) 'mylayout'}}
+        <div>myview1</div>
+
     // output
     <html>
 		<div>myview</div>
     </html>
 
+## Licence
 
+See package.json
