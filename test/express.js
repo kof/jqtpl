@@ -1,6 +1,7 @@
 var express = require('express'),
     _ = require('underscore'),
-    request = require('request');
+    request = require('request'),
+    fs = require('fs');
 
 var options;
 
@@ -11,28 +12,21 @@ options = {
     port: 7000
 };
 
-options.express = {
-    views: options.root + '/1',
-    'view engine': 'html'
-};
+var views = options.root + '/1';
 
-function createServer() {
-    var server = express();
+function create() {
+    var app = express();
 
-    _.each(options.express, function(val, name) {
-        server.set(name, val);
-    });
-
-    server.use(express.bodyParser());
-    server.engine('html', render);
-
-    server.post('/*', function(req, res){
+    app.engine('html', render);
+    app.set('views', views);
+    app.set('view engine', 'html');
+    app.use(express.bodyParser());
+    app.post('/*', function(req, res){
         res.render(req.url.substr(1), req.body);
     });
+    app.listen(options.port);
 
-    server.listen(options.port);
-
-    return server;
+    return app;
 }
 
 function post(path, data, callback) {
@@ -47,6 +41,7 @@ function post(path, data, callback) {
         json: data
     }, function(err, res) {
         if (err) {
+            console.error(err);
             equal(err, null, 'Request errored.');
         }
 
@@ -54,8 +49,8 @@ function post(path, data, callback) {
     });
 }
 
-var server = createServer();
-
+var app = create();
+/*
 test("locals", function() {
     expect(1);
     stop();
@@ -90,59 +85,65 @@ test("partials 2", function() {
     });
 });
 
+test('render template with a layout', function() {
+    expect(1);
+    stop();
+
+    app.set('view options', {layout: true});
+    app.set('views', options.root + '/2');
+
+    post('/views/test', {mylocal: "mylocal"}, function(data) {
+        equal(data, 'abc mylocal', 'template and layout rendered correctly');
+        app.disable('view options');
+        app.set('views', views);
+        start();
+    });
+});
+
+test("render multiple times the same template #29", function() {
+    var data;
+
+    data = {
+        a: 'Hello',
+        settings: {
+            'view options': {}
+        }
+    };
+    equal(render(views + '/view.html', data), '<div>Hello</div>', 'template rendered correctly');
+    equal(render(views + '/view.html', data), '<div>Hello</div>', 'template rendered correctly 2');
+    equal(render(views + '/view.html', data), '<div>Hello</div>', 'template rendered correctly 3');
+});
+
+test("template recompiled if cache disabled", function() {
+    var data,
+        view = views + '/view.html';
+
+    data = {
+        a: 'Hello',
+        settings: {
+            'view options': {}
+        }
+    };
+    equal(render(view, data), '<div>Hello</div>', 'template rendered correctly');
+    fs.writeFileSync(view, 'new template ${a}');
+    equal(render(view, data), 'new template Hello', 'template was recompiled');
+    fs.writeFileSync(view, '<div>${a}</div>');
+});
+*/
 test("layout tag", function() {
     var html = 'mylayout requested view mylayout';
-    expect(2);
+    //expect(2);
     stop();
     post('/layouttest', function(data) {
         equal(data, html, 'layout rendered correctly');
+        start();
+        /*
         post('/layouttest', function(data) {
             ok(data, html, 'if caching is turned on, second call should work too #46');
             start();
         });
+*/
     });
 });
-return;
 
-test("rendering multiple times of the same template #29", function() {
-    var template = 'Just example ${example}'
-    var je = require('../').express
-    var render = je.compile(template, {filename: 'example.html'})
-
-    equal(render({example: 'Hello'}), 'Just example Hello', 'template rendered correctly');
-    equal(render({example: 'Hello'}), 'Just example Hello', 'template rendered correctly');
-});
-
-test("clean cache if template have to be recompiled", function() {
-    var je = require('../').express
-
-    var template = 'my template 1';
-    var render = je.compile(template, {filename: 'template.html'});
-
-    equal(render(), 'my template 1', 'template 1 rendered correctly');
-
-    // now template has been changed
-    template = 'my template 2';
-
-    render = je.compile(template, {filename: 'template.html'})
-
-    equal(render(), 'my template 2', 'template 2 rendered correctly after recompile');
-});
-
-test("rendering template with a layout turned on", function() {
-    expect(1);
-    stop();
-    server.close();
-    server = createServer({
-        'view options': {layout: true},
-        views: options.root + '/2'
-    });
-
-    post('/views/test', {mylocal: "mylocal"}, function(data) {
-        equal(data, 'abc mylocal', 'template and layout rendered correctly');
-        server.close();
-        server = createServer();
-        start();
-    });
-});
 
