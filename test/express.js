@@ -50,7 +50,7 @@ function post(path, data, callback) {
 }
 
 var app = create();
-/*
+
 test("locals", function() {
     expect(1);
     stop();
@@ -129,20 +129,17 @@ test("template recompiled if cache disabled", function() {
     equal(render(view, data), 'new template Hello', 'template was recompiled');
     fs.writeFileSync(view, '<div>${a}</div>');
 });
-*/
+
 test("layout tag", function() {
     var html = 'mylayout requested view mylayout';
-    //expect(2);
+    expect(2);
     stop();
     post('/layouttest', function(data) {
         equal(data, html, 'layout rendered correctly');
-        start();
-        /*
         post('/layouttest', function(data) {
-            ok(data, html, 'if caching is turned on, second call should work too #46');
+            equal(data, html, 'if caching is turned on, second call should work too #46');
             start();
         });
-*/
     });
 });
 
