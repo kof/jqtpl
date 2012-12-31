@@ -215,8 +215,6 @@ A map of compiled templates.
 
 Using layout tag in a view it is possible to define a layout within this view.
 
-	// tpl
-
 	// mylayout.html
 	<html>
 	{{html body}}
@@ -224,15 +222,15 @@ Using layout tag in a view it is possible to define a layout within this view.
 
     // myview.html
     {{layout 'mylayout'}}
-    	<div>myview</div>
+	<div>myview</div>
 
     // myview1.html
     {{layout({a: 1}) 'mylayout'}}
-        <div>myview1</div>
+    <div>myview1</div>
 
     // output
     <html>
-		<div>myview</div>
+	<div>myview</div>
     </html>
 
 ## Licence
