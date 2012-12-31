@@ -47,7 +47,7 @@ http://api.jquery.com/category/plugins/templates/
             a: function() {
                 return 1 + 5;
            }
-       });
+        });
         //output
         <div>6</div>
 
@@ -177,22 +177,22 @@ Compile and cache a template string. Returns a compiled template function.
 - `markup` html string.
 - `name` optional template name, if no name is passed - markup string will be used as a name.
 
-    // tpl
-    <div>${a}</div>
+        // tpl
+        <div>${a}</div>
 
-    // code
+        // code
 
-    // precompile an cache it
-    jqtpl.compile(tpl, 'myTemplate');
+        // precompile an cache it
+        jqtpl.compile(tpl, 'myTemplate');
 
-    // render user a name
-    jqtpl.render('myTemplate', {a:1});
+        // render user a name
+        jqtpl.render('myTemplate', {a:1});
 
-    // delete the template from cache
-    delete jqtpl.cache['myTemplate'];
+        // delete the template from cache
+        delete jqtpl.cache['myTemplate'];
 
-    // output
-    <div>1</div>
+        // output
+        <div>1</div>
 
 ### jqtpl.cache
 
