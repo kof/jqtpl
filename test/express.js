@@ -82,10 +82,11 @@ test("partials", function() {
 test("partials 2", function() {
     expect(1);
     stop();
-    post('/partialtest2', {test: {a: 1}}, function(data) {
+    var data = {absPartialPath: views + '/view.html'};
+    post('/partialtest2', data, function(data) {
         equal(
             data,
-            '<div>1</div><div>1</div><div>1</div><div>1</div><div>1</div>',
+            '<div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div>',
             'paths resolved correctly'
         );
         start();

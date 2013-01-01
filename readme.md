@@ -212,6 +212,7 @@ A namespace for global helper functions, which can be used in every template.
 
     app.set('views', '/path/to/the/views/dir');
     app.set('view engine', 'html');
+    app.set('view options', {layout: true});
     app.engine('html', require('jqtpl').__express);
 
 ### {{layout}} tag
