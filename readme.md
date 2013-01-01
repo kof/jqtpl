@@ -162,17 +162,16 @@ The use case is to be able to render the same template partially on the server a
 ### require the module
     var jqtpl = require('jqtpl');
 
-### jqtpl.render(markup, [data], [options]);
+### jqtpl.render(markup, [data]);
 
 Compile and render a template. It uses `jqtpl.template` method. Returns a rendered html string.
 
 - `markup` html code or precompiled template name.
 - `data` optional object or array of data.
-- `options` optional options object.
 
 ### jqtpl.compile(markup, [name])
 
-Compile and cache a template string. Returns a compiled template function.
+Compile and cache a template string. Returns a `render` function which can be called to render the template, see `jtpl.render`.
 
 - `markup` html string.
 - `name` optional template name, if no name is passed - markup string will be used as a name.
