@@ -61,26 +61,33 @@ test("locals", function() {
 });
 
 test("partials", function() {
-    expect(1);
+    expect(2);
     stop();
     post('/partialtest', {test: {a: 1}}, function(data) {
         equal(data, '<div>1</div>', 'data is an object');
-        start();
-    });
-});
-
-test("partials 2", function() {
-    expect(1);
-    stop();
-    var data = {
+        data = {
             test: [
                 {a: 1},
                 {a: 2},
                 {a: 3}
             ]
         };
-    post('/partialtest', data, function(data) {
-        equal(data, '<div>1</div><div>2</div><div>3</div>', 'data is an array');
+        post('/partialtest', data, function(data) {
+            equal(data, '<div>1</div><div>2</div><div>3</div>', 'data is an array');
+            start();
+        });
+    });
+});
+
+test("partials 2", function() {
+    expect(1);
+    stop();
+    post('/partialtest2', {test: {a: 1}}, function(data) {
+        equal(
+            data,
+            '<div>1</div><div>1</div><div>1</div><div>1</div><div>1</div>',
+            'paths resolved correctly'
+        );
         start();
     });
 });
