@@ -201,6 +201,10 @@ A map of compiled templates.
 - `key` - template name or markup string.
 - `value` - compiled template function.
 
+### jqtpl.$
+
+A namespace for global helper functions, which can be used in every template.
+
 ## Express specific stuff
 
 **Note: express will cache all templates in production!**
