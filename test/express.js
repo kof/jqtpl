@@ -108,6 +108,21 @@ test('render template with a layout', function() {
     });
 });
 
+test('load partial from layout using relative path', function() {
+    expect(1);
+    stop();
+
+    app.set('view options', {layout: '/layout2'});
+    app.set('views', options.root + '/2');
+
+    post('/views/test', {mylocal: "mylocal"}, function(data) {
+        equal(data, 'abc partial', 'partial path resolved correctly');
+        app.disable('view options');
+        app.set('views', views);
+        start();
+    });
+});
+
 test("render multiple times the same template #29", function() {
     var data;
 
