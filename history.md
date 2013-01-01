@@ -5,7 +5,7 @@
     - jqtpl.render returns always a string.
     - jqtpl.template -> jqtpl.compile
     - jqtpl.tempalte[name] -> jqtpl.cache[name]
-- Make {{each}} tag [].forEach compatible - pass value as first, iteration as a second argument.
+- Make {{each}} tag [].forEach compatible - pass value as first, iteration number or key as a second argument.
 - Rename {{tmpl}} tag to {{partial}}.
 - Port unit tests from original engine.
 - Add browser and AMD support
@@ -20,4 +20,5 @@
         - "$data" -> "__data"
     - Removed $data and $item local variables in tempaltes.
     - "_default" -> "default"
+    - "$"" namespace for global helper functions, not jQuery.
 
