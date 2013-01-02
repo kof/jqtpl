@@ -21,4 +21,6 @@
     - Removed $data and $item local variables in tempaltes.
     - "_default" -> "default"
     - "$"" namespace for global helper functions, not jQuery.
+- Set layout globally:
+    app.set('layout', true);
 

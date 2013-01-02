@@ -97,12 +97,12 @@ test('render template with a layout', function() {
     expect(1);
     stop();
 
-    app.set('view options', {layout: true});
+    app.set('layout', true);
     app.set('views', options.root + '/2');
 
     post('/views/test', {mylocal: "mylocal"}, function(data) {
         equal(data, 'abc mylocal', 'template and layout rendered correctly');
-        app.disable('view options');
+        app.set('layout', false);
         app.set('views', views);
         start();
     });
@@ -112,12 +112,12 @@ test('load partial from layout using relative path', function() {
     expect(1);
     stop();
 
-    app.set('view options', {layout: '/layout2'});
+    app.set('layout', '/layout2');
     app.set('views', options.root + '/2');
 
     post('/views/test', {mylocal: "mylocal"}, function(data) {
         equal(data, 'abc partial', 'partial path resolved correctly');
-        app.disable('view options');
+        app.set('layout', false);
         app.set('views', views);
         start();
     });
@@ -128,9 +128,7 @@ test("render multiple times the same template #29", function() {
 
     data = {
         a: 'Hello',
-        settings: {
-            'view options': {}
-        }
+        settings: {}
     };
     equal(render(views + '/view.html', data), '<div>Hello</div>', 'template rendered correctly');
     equal(render(views + '/view.html', data), '<div>Hello</div>', 'template rendered correctly 2');
@@ -143,9 +141,7 @@ test("template recompiled if cache disabled", function() {
 
     data = {
         a: 'Hello',
-        settings: {
-            'view options': {}
-        }
+        settings: {}
     };
     equal(render(view, data), '<div>Hello</div>', 'template rendered correctly');
     fs.writeFileSync(view, 'new template ${a}');
