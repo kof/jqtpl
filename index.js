@@ -6,7 +6,7 @@ var express;
 
 try {
     express = require('express');
-    if (parseInt(express.version.split('.')[0], 10) < 3)) {
+    if (parseInt(express.version.split('.')[0], 10) < 3) {
         exports.__express = require('./lib/express').render;
     } else {
         exports.__express = function() {
