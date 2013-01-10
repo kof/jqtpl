@@ -285,17 +285,6 @@ test('preserve whitespaces', function() {
    );
 });
 
-test("{{verbatim}}", function() {
-    equal(
-        render(
-            '<div>{{= a}}{{verbatim}}${a}12345{{/verbatim}{{/verbatim}}{{verbatim}}}{{= a}}{{/verbatim}}${a}</div>',
-            {a:1}
-       ),
-        '<div>1${a}12345{{/verbatim}}{{= a}}1</div>',
-        'verbatim'
-   );
-});
-
 test('Error reporting', function() {
     throws(function() { render('${ a b c }}'); }, SyntaxError, 'syntax error');
     throws(function() { render('${a.b}'); }, ReferenceError, 'reference error');

@@ -108,6 +108,22 @@ test('render template with a layout', function() {
     });
 });
 
+test('render a partial while a parent view has a layout', function() {
+    expect(1);
+    stop();
+
+    app.set('layout', true);
+    app.set('views', options.root + '/2');
+
+    post('/views/partial-and-layout', {mylocal: "layout"}, function(data) {
+        console.log(data);
+        equal(data, 'view partial layout', 'partial rendered without layout');
+        app.set('layout', false);
+        app.set('views', views);
+        start();
+    });
+});
+
 test('load partial from layout using relative path', function() {
     expect(1);
     stop();
