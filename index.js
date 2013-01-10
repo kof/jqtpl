@@ -1,7 +1,7 @@
 module.exports = exports = require('./lib/jqtpl');
 exports.version = require('./package.json').version;
 
-require('./lib/tags/tr');
+//require('./lib/tags/tr');
 require('./lib/tags/verbatim');
 
 var express;
