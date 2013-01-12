@@ -12,15 +12,9 @@
 - Add support express 3.0.x
     - implement partial and layout simpilar to the old express behavour.
 - For those who has implemented custom tags:
-    - For less conflicts renamed:
-        - "_" -> "__body"
-        - "$1" -> "__1"
-        - "$2" -> "__2"
-        - "$1a" -> "__1a"
-        - "$data" -> "__data"
-    - Removed $data and $item local variables in tempaltes.
+    - For less conflicts renamed "_" -> "__"
     - "_default" -> "default"
-    - "$"" namespace for global helper functions, not jQuery.
+    - "$" namespace for global helper functions, not jQuery.
 - Set layout globally:
     app.set('layout', true);
 
