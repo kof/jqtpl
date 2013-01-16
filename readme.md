@@ -101,7 +101,7 @@ http://api.jquery.com/category/plugins/templates/
     jqtpl.render(tpl, {a:'<div id="123">2</div>'});
 
 	// output
-    <div id="123">2</div>
+    <div><div id="123">2</div></div>
 
 
 ### {{!}} - comments.

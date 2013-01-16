@@ -93,7 +93,22 @@ test("partials 2", function() {
     });
 });
 
-test('render template with a layout', function() {
+test('use layout from the current dir', function() {
+    expect(1);
+    stop();
+
+    app.set('layout', true);
+    app.set('views', options.root + '/3');
+
+    post('/view', {a: "abc"}, function(data) {
+        equal(data, 'layout view abc', 'template and layout rendered correctly');
+        app.set('layout', false);
+        app.set('views', views);
+        start();
+    });
+});
+
+test('use layout from the parent dir', function() {
     expect(1);
     stop();
 
@@ -108,7 +123,29 @@ test('render template with a layout', function() {
     });
 });
 
-test('render a partial while a parent view has a layout', function() {
+test('no layout found', function() {
+    var util = require('util'),
+        error = util.error;
+
+    expect(2);
+    stop();
+
+    app.set('layout', true);
+    app.set('views', options.root + '/4');
+    util.error = function(str) {
+        equal(str, 'Layout not found in jqtpl template:', 'printed an error');
+    };
+
+    post('/view', {a: "abc"}, function(data) {
+        equal(data, 'view', 'template rendered without layout');
+        app.set('layout', false);
+        app.set('views', views);
+        util.error = error;
+        start();
+    });
+});
+
+test('render partial, from view with layout', function() {
     expect(1);
     stop();
 
@@ -124,7 +161,7 @@ test('render a partial while a parent view has a layout', function() {
     });
 });
 
-test('load partial from layout using relative path', function() {
+test('render partial from layout using relative path', function() {
     expect(1);
     stop();
 
