@@ -99,7 +99,8 @@ test('use layout from the current dir', function() {
 
     app.set('layout', true);
     app.set('views', options.root + '/3');
-
+    // In production options are cached too.
+    app.cache = {};
     post('/view', {a: "abc"}, function(data) {
         equal(data, 'layout view abc', 'template and layout rendered correctly');
         app.set('layout', false);
@@ -114,7 +115,8 @@ test('use layout from the parent dir', function() {
 
     app.set('layout', true);
     app.set('views', options.root + '/2');
-
+    // In production options are cached too.
+    app.cache = {};
     post('/views/test', {mylocal: "mylocal"}, function(data) {
         equal(data, 'abc mylocal', 'template and layout rendered correctly');
         app.set('layout', false);
@@ -132,6 +134,8 @@ test('no layout found', function() {
 
     app.set('layout', true);
     app.set('views', options.root + '/4');
+    // In production options are cached too.
+    app.cache = {};
     util.error = function(str) {
         equal(str, 'Layout not found in jqtpl template:', 'printed an error');
     };
@@ -151,9 +155,9 @@ test('render partial, from view with layout', function() {
 
     app.set('layout', true);
     app.set('views', options.root + '/2');
-
+    // In production options are cached too.
+    app.cache = {};
     post('/views/partial-and-layout', {mylocal: "layout"}, function(data) {
-        console.log(data);
         equal(data, 'view partial layout', 'partial rendered without layout');
         app.set('layout', false);
         app.set('views', views);
