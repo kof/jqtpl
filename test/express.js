@@ -86,7 +86,7 @@ test("partials 2", function() {
     post('/partialtest2', data, function(data) {
         equal(
             data,
-            '<div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div>',
+            '<div>1</div><div>2</div><div>3</div><div>4</div><div>5</div>',
             'paths resolved correctly'
         );
         start();
@@ -169,7 +169,7 @@ test('render partial from layout using relative path', function() {
     expect(1);
     stop();
 
-    app.set('layout', '/layout2');
+    app.set('layout', '../layout2');
     app.set('views', options.root + '/2');
 
     post('/views/test', {mylocal: "mylocal"}, function(data) {
