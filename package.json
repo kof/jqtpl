@@ -15,7 +15,7 @@
     "devDependencies": {
         "express": "3.0.x",
         "qunit": "0.5.x",
-        "request": "2.9.x"
+        "request": "2.88.x"
     },
     "licenses": [
         {
