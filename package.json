@@ -13,7 +13,7 @@
         "underscore": "1.4.x"
     },
     "devDependencies": {
-        "express": "3.0.x",
+        "express": "4.17.x",
         "qunit": "0.5.x",
         "request": "2.9.x"
     },
